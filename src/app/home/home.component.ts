@@ -17,11 +17,11 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.proSer.getCategrCate().subscribe((res) => {
+    this.proSer.getTopCategories().subscribe((res) => {
       this.firstCatgr = res
     })
 
-    this.proSer.getCategrHomeCate().subscribe((res)=>{
+    this.proSer.getHomePageCategories().subscribe((res)=>{
       this.lastCatgr = res
     })
   }

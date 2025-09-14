@@ -22,13 +22,17 @@ export class CategoriesComponent implements OnInit {
   routeCategory: any
   allProducts: any[] = []
   ngOnInit(): void {
-    this.proSer.getProducts().subscribe((res) => {
-      this.allProducts = res;
-      this.categories = [...Array.from(new Set(res.map(item => item.category)))];
-      this.route.paramMap.subscribe(params => {
-        this.selectedCategory = params.get('category');
-      });
-    });
+    // this.proSer.getProducts().subscribe((res) => {
+    //   this.allProducts = res;
+    //   this.categories = [...Array.from(new Set(res.map(item => item.category)))];
+    //   this.route.paramMap.subscribe(params => {
+    //     this.selectedCategory = params.get('category');
+    //   });
+    // });
+    this.proSer.getAllProductCategories().subscribe((res)=>{
+      console.log(res);
+      
+    })
     this.getProByCategories(this.selectedCategory);
   }
 

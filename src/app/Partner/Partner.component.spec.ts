@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LogoFrameComponent } from './LogoFrame.component';
+import { PartnerComponent } from './Partner.component';
 
-describe('LogoFrameComponent', () => {
-  let component: LogoFrameComponent;
-  let fixture: ComponentFixture<LogoFrameComponent>;
+describe('PartnerComponent', () => {
+  let component: PartnerComponent;
+  let fixture: ComponentFixture<PartnerComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [LogoFrameComponent]
+      imports: [PartnerComponent]
     });
-    fixture = TestBed.createComponent(LogoFrameComponent);
+    fixture = TestBed.createComponent(PartnerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

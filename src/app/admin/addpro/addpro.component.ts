@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { product } from 'src/app/models/product.model';
+import { Product } from 'src/app/models/product.model';
 import { PopularCategories } from 'src/app/models/PopularCategories.model';
 import { Article } from 'src/app/models/article.model';
-import { LogoService } from 'src/app/Services/logo.service';
+import { PartnerService } from 'src/app/Services/partner.service';
 import { ProductService } from 'src/app/Services/product.service';
 import { CommonModule } from '@angular/common'
+import { Category } from 'src/app/models/category.model';
+import { Partner } from 'src/app/models/partner.model';
 
 @Component({
   selector: 'app-addpro',
@@ -16,17 +18,17 @@ import { CommonModule } from '@angular/common'
 export class AddproComponent implements OnInit {
   PopularCatgrForm!: FormGroup
   productForm!: FormGroup;
-  allPro!: product[]
+  allPro!: Product[]
   DiscoverProForm!: FormGroup;
   ArticleForm!: FormGroup
   allDiscoverPro!: PopularCategories[]
   NewsArticles: Article[] = []
-  categories: any;
+  categories!: Category[];
   constructor(
     private fb: FormBuilder,
     private proSer: ProductService,
     private activtedRoute: ActivatedRoute,
-    private logoSer: LogoService,
+    private partnerSer: PartnerService,
 
   ) {
 
@@ -54,21 +56,14 @@ export class AddproComponent implements OnInit {
   selectedItem: string = ''
   proQty: number = 1
   allCatgrPro: PopularCategories[] = []
-  alllogo: any[] = []
+  partnerData: Partner[] = []
 
   id!: any;
-  logForm !: FormGroup
+  partnerForm !: FormGroup
   ngOnInit(): void {
     this.selectedItem = this.sideBarData[0].name
     this.initAllForms()
 
-    // "T-Shirts",
-    // "Jeans",
-    // "Jackets",
-    // "Dresses",
-    // "Shoes",
-    // "New Arrivals",
-    // "Top-Seller"
 
     this.proSer.getCategories().subscribe((res) => {
       this.categories = res
@@ -77,9 +72,7 @@ export class AddproComponent implements OnInit {
 
     this.id = this.activtedRoute.snapshot.paramMap.get('proid')
     console.log(this.id);
-    // this.proSer.getCategories().subscribe((res) => {
-    //   this.categories = console.log(res);
-    // })
+ 
 
     if (this.id) {
       this.proSer.getProductId(this.id).subscribe((res: any) => {
@@ -104,25 +97,11 @@ export class AddproComponent implements OnInit {
     }
 
 
-
-    // this.proSer.getCategrPro().subscribe((res) => {
-    //   this.allCatgrPro = res
-    // })
-
-    // this.proSer.getProducts().subscribe((res) => {
-    //   this.allPro = res
-    // })
-
-    // this.proSer.getDiscoverPro().subscribe((res) => {
-    //   this.allDiscoverPro = res
-    // })
-
-    this.logoSer.getSiteLogo().subscribe((res) => {
-      this.alllogo = res
+    this.partnerSer.getPartner().subscribe((res) => {
+      this.partnerData = res
     })
 
-    this.logoSer.getNewsArticle().subscribe((res) => {
-      let aa = 0;
+    this.partnerSer.getNewsArticle().subscribe((res) => {
       this.NewsArticles = res
     })
 
@@ -149,15 +128,8 @@ export class AddproComponent implements OnInit {
       qty: [this.proQty]
     })
 
-    // this.DiscoverProForm = this.fb.group({
-    //   id: [this.customid2],
-    //   img: ['', Validators.required],
-    //   showHomePage: ['', Validators.required],
-    //   btnText: ['', Validators.required],
-    // })
 
-
-    this.logForm = this.fb.group({
+    this.partnerForm = this.fb.group({
       imgurl: [''],
       showHomePge: [''],
     })
@@ -171,7 +143,7 @@ export class AddproComponent implements OnInit {
 
 
 
-  submitcatgrPro() {
+  submitCatgrPro() {
 
     if (this.id) {
       this.proSer.updateCategrPro(this.id, this.PopularCatgrForm.value).subscribe((res) => {
@@ -189,9 +161,7 @@ export class AddproComponent implements OnInit {
   }
 
 
-  AddnewPro() {
-    // const id = this.productForm.get('id')?.value;
-    // const samePro = this.allPro.find((val: { id: any; }) => val.id == id)
+  addNewPro() {
 
     if (this.id) {
       this.proSer.updateProduct(this.id, this.productForm.value).subscribe((res) => {
@@ -201,7 +171,10 @@ export class AddproComponent implements OnInit {
     } else {
       //  check  if product name already exist then show msg otherwise create new product 
       const newName = this.productForm.get('name')?.value
-      this.proSer.getProductByName(newName).subscribe((res) => {
+      console.log(typeof newName);
+      
+      this.proSer.getProductByName(newName.trim()).subscribe((res) => {
+        console.log(res);
         if (res) {
           alert("This name is already assigned to a product.");
         } else {
@@ -218,57 +191,39 @@ export class AddproComponent implements OnInit {
   }
 
 
-  // SubmitDiscoverPro() {
-
-  //   if (this.id) {
-  //     this.proSer.updateDiscoverPro(this.id, this.DiscoverProForm.value).subscribe((res) => {
-  //       console.log(res);
-  //       this.DiscoverProForm.reset();
-  //     })
-  //   } else {
-  //     this.proSer.postDiscoverPro(this.DiscoverProForm.value).subscribe((res) => {
-  //       console.log(res);
-  //       this.DiscoverProForm.reset();
-  //     })
-
-  //   }
-
-
-
-
-  addlogo() {
+  addPartner() {
 
     if (this.id) {
-      this.logoSer.updateSiteLogo(this.id, this.logForm.value).subscribe((res) => {
+      this.partnerSer.updatePartner(this.id, this.partnerForm.value).subscribe((res) => {
         console.log(res);
-        this.logForm.reset();
+        this.partnerForm.reset();
       })
     } else {
-      this.logoSer.postSiteLogo(this.logForm.value).subscribe((res) => {
+      this.partnerSer.postPartner(this.partnerForm.value).subscribe((res) => {
         console.log(res);
-        this.logForm.reset();
+        this.partnerForm.reset();
       })
 
     }
 
   }
 
-  editItem(item: any) {
-    this.logForm.patchValue({
+  partner(item: any) {
+    this.partnerForm.patchValue({
       imgurl: item.imgurl,
       showHomePge: item.showHomePge,
     })
-    if (this.logForm.contains('id')) {
-      this.logForm.patchValue({ id: item.id });
+    if (this.partnerForm.contains('id')) {
+      this.partnerForm.patchValue({ id: item.id });
     } else {
-      this.logForm.addControl('id', this.fb.control(item.id));
+      this.partnerForm.addControl('id', this.fb.control(item.id));
     }
 
   }
 
 
   deleteItem(id: number) {
-    this.logoSer.deleteSiteLogoFromService(id).subscribe((res) => {
+    this.partnerSer.deletePartner(id).subscribe((res) => {
       res
     })
   }
@@ -277,12 +232,12 @@ export class AddproComponent implements OnInit {
   submitArtilePro() {
 
     if (this.id) {
-      this.logoSer.updateNewsArticle(this.id, this.ArticleForm.value).subscribe((res) => {
+      this.partnerSer.updateNewsArticle(this.id, this.ArticleForm.value).subscribe((res) => {
         console.log(res);
         this.ArticleForm.reset();
       })
     } else {
-      this.logoSer.postNewsArticle(this.ArticleForm.value).subscribe((res) => {
+      this.partnerSer.postNewsArticle(this.ArticleForm.value).subscribe((res) => {
         console.log(res);
         this.ArticleForm.reset();
       })
@@ -305,7 +260,7 @@ export class AddproComponent implements OnInit {
   }
 
   deleteArticlePro(id: number) {
-    this.logoSer.deleteNewsArticleFromService(id).subscribe((res) => {
+    this.partnerSer.deleteNewsArticle(id).subscribe((res) => {
       console.log(res);
 
     })

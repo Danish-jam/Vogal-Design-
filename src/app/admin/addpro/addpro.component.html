@@ -46,7 +46,7 @@
   <div class="tab-content flex-grow-1 p-4 bg-light">
     <!-- Category Form -->
     <div class="tab-pane fade show active" *ngIf="selectedItem == 'Add More Catgories'">
-      <form [formGroup]="PopularCatgrForm" (ngSubmit)="submitcatgrPro()" class="product-form">
+      <form [formGroup]="PopularCatgrForm" (ngSubmit)="submitCatgrPro()" class="product-form">
         <h4 class="form-title">Explore More Category</h4>
         <div class="mb-3">
           <label for="image">Image URL</label>
@@ -79,7 +79,7 @@
     <!-- Product Form -->
 
     <div *ngIf="selectedItem == 'Add New Product'">
-      <form [formGroup]="productForm" (ngSubmit)="AddnewPro()" class="product-form">
+      <form [formGroup]="productForm" (ngSubmit)="addNewPro()" class="product-form">
         <h4 class="form-title text-center">Add Product</h4>
         <div class="mb-3">
           <label for="img">Image URL</label>
@@ -118,7 +118,7 @@
     <!-- Logo Image Form -->
 
     <div class="" id="logoimg-form" *ngIf="selectedItem == 'Add Logo Partner'">
-      <form class="custom-form" [formGroup]="logForm" (ngSubmit)="addlogo()">
+      <form class="custom-form" [formGroup]="partnerForm" (ngSubmit)="addPartner()">
         <h4 class="form-title">Add Product Image</h4>
         <label for="imageUrl">Image URL</label>
         <input type="text" id="imageUrl" formControlName="imgurl" class="form-control"
@@ -146,14 +146,14 @@
               </tr>
             </thead>
             <tbody class="text-center">
-              <tr *ngFor="let item of alllogo ; let i = index">
+              <tr *ngFor="let item of partnerData ; let i = index">
                 <td>{{ i + 1 }}</td>
                 <!-- | countChar : 20  -->
-                <td class="text-start">{{ item.imgurl | slice:0:25  }}...</td>
+                <td class="text-start">{{ item.imgUrl | slice:0:25  }}...</td>
                 <td>{{ item.showHomePge }}</td>
                 <td>
                   <div class="d-flex flex-column flex-sm-row justify-content-center gap-2">
-                    <button class="btn btn-sm btn-warning w-100 w-sm-auto" (click)="editItem(item)">
+                    <button class="btn btn-sm btn-warning w-100 w-sm-auto" (click)="partner(item)">
                       <i class="bi bi-pencil-square"></i> Edit
                     </button>
                     <button class="btn btn-sm btn-danger w-100 w-sm-auto" (click)="deleteItem(item.id)">

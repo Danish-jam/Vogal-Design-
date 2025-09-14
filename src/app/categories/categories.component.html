@@ -59,7 +59,7 @@
           <div class="custom-card card h-100">
             <img [src]="pro.img" class="card-img-top" alt="Product Image">
             <div class="card-body d-flex flex-column">
-              <h5 class="card-title">{{ pro.name | countChar : 10 }}</h5>
+              <h5 class="card-title">{{ pro.name | slice : 10 }}</h5>
               <p class="card-text">Some quick example text to build ...</p>
               <a [routerLink]="['detaile', pro.id]" class="details-link">Details</a>
               <p class="text-danger">${{ pro.price }}</p>

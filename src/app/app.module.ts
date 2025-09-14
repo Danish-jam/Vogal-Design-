@@ -18,7 +18,7 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
 import { ExploreMoreComponent } from './exploreMore/exploreMore.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
-import { LogoFrameComponent } from "./LogoFrame/LogoFrame.component";
+import { PartnerComponent } from "./Partner/Partner.component";
 import { SellerProComponent } from "./seller-pro/seller-pro.component";
 import { NewsArticlesComponent } from "./news-articles/news-articles.component";
 import { DeliveryComponent } from "./delivery/delivery.component";
@@ -30,6 +30,7 @@ import { SearchProPipe } from './pipes/search-pro.pipe';
 import { AdminModule } from './admin/admin.module';
 import { UserModule } from './user/user.module';
 import { CardComponent } from './card/card.component';
+import { TrendCardComponent } from './trendCard/trendCard.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,7 +46,8 @@ import { CardComponent } from './card/card.component';
     PopularCategoriesComponent,
     LatestProductsComponent,
     ExploreMoreComponent,
-    LogoFrameComponent,
+    TrendCardComponent,
+    PartnerComponent,
     SellerProComponent,
     NewsArticlesComponent,
     FooterComponent,

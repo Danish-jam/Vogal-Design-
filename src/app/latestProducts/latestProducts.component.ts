@@ -19,8 +19,9 @@ export class LatestProductsComponent  implements OnInit{
   }
 
  ngOnInit(): void {
-   this.proSer.getProducts().subscribe((res) =>{
-     this.arrivalPro = res.filter(pro => pro.showOnHomePage == "true")
+   this.proSer.getHomePagePro().subscribe((res) =>{
+     this.arrivalPro = res
+     
    })
 
 

@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { PopularCategories as Category } from '../models/PopularCategories.model';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
-import { product } from '../models/product.model';
-import { cartProducts } from '../models/cartpro.module';
+import { Product } from '../models/product.model';
+import { Cart } from '../models/cart.model';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -15,14 +15,14 @@ export class ProductService {
 
   private apiUrl: string = 'http://localhost:3200/'
 
-searchPro(name: string): Observable<Category[]> {
-   return this.http.get<Category[]>(`${this.apiUrl}products?q=${name}`);
-}
+  searchPro(name: string): Observable<Category[]> {
+    return this.http.get<Category[]>(`${this.apiUrl}products?q=${name}`);
+  }
 
-  getCategrCate(): Observable<Category[]> {
+  getTopCategories(): Observable<Category[]> {
     return this.http.get<Category[]>(this.apiUrl + `categories?topCategoryPro=true`)
   }
-  getCategrHomeCate(): Observable<Category[]> {
+  getHomePageCategories(): Observable<Category[]> {
     return this.http.get<Category[]>(this.apiUrl + `categories?showOnHom~ePage=true`)
   }
 
@@ -53,31 +53,36 @@ searchPro(name: string): Observable<Category[]> {
   updateCart(cartId: number, updatedCart: any): Observable<any> {
     return this.http.put(`${this.apiUrl}cart/${cartId}`, updatedCart);
   }
-  getProducts(): Observable<product[]> {
-    return this.http.get<product[]>(this.apiUrl + 'products')
+  getProducts(): Observable<Product[]> {
+    return this.http.get<Product[]>(this.apiUrl + 'products')
   }
 
-  postProduct(newPro: product): Observable<product[]> {
-    return this.http.post<product[]>(`${this.apiUrl}products`, newPro)
+  getHomePagePro(): Observable<Category[]> {
+    return this.http.get<Category[]>(this.apiUrl + `products?showOnHomePage=true`)
   }
 
-  deleteProductFromService(proId: number): Observable<product[]> {
-    return this.http.delete<product[]>(`${this.apiUrl}products/${proId}`)
+  getAllProductCategories(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + 'products/category');
   }
 
-  getProductId(id: number): Observable<product> {
-    return this.http.get<product>(`${this.apiUrl}products/${id}`)
+  postProduct(newPro: Product): Observable<Product[]> {
+    return this.http.post<Product[]>(`${this.apiUrl}products`, newPro)
   }
 
-  getProductByName(name: string): Observable<product | undefined> {
-    return this.http.get<product[]>(`${this.apiUrl}products`).pipe(
-      map((products: any[]) => products.find(p => p.name.toLowerCase() === name.toLowerCase()))
-    );
+  deleteProduct(proId: number): Observable<Product[]> {
+    return this.http.delete<Product[]>(`${this.apiUrl}products/${proId}`)
   }
 
+  getProductId(id: number): Observable<Product> {
+    return this.http.get<Product>(`${this.apiUrl}products/${id}`)
+  }
 
-  updateProduct(Id: number, updatePro: product) {
-    return this.http.put<product>(`${this.apiUrl}products/${Id}`, updatePro);
+  getProductByName(name: string): Observable<Product[]> {
+     return this.http.get<Product[]>(`${this.apiUrl}products?q=${name}`);
+  }
+
+  updateProduct(Id: number, updatePro: Product) {
+    return this.http.put<Product>(`${this.apiUrl}products/${Id}`, updatePro);
   }
 
   getQuestionsByCategory(category: string) {
@@ -87,23 +92,23 @@ searchPro(name: string): Observable<Category[]> {
 
   //CArt Products
 
-  PostCartPro(newProduct: any): Observable<cartProducts[]> {
-    return this.http.post<cartProducts[]>(`${this.apiUrl}cart`, newProduct)
+  PostCartPro(newProduct: any): Observable<Cart[]> {
+    return this.http.post<Cart[]>(`${this.apiUrl}cart`, newProduct)
   }
   // Get cart by userId
   getCartByUserId(userId: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}cart?userId=${userId}`);
   }
-  CartProducts(): Observable<cartProducts[]> {
-    return this.http.get<cartProducts[]>(this.apiUrl + 'cart')
+  CartProducts(): Observable<Cart[]> {
+    return this.http.get<Cart[]>(this.apiUrl + 'cart')
   }
 
-  getCartProId(id: number): Observable<cartProducts> {
-    return this.http.get<cartProducts>(`${this.apiUrl}cart/${id}`)
+  getCartProId(id: number): Observable<Cart> {
+    return this.http.get<Cart>(`${this.apiUrl}cart/${id}`)
   }
 
-  deleteProFromCart(proId: number): Observable<cartProducts[]> {
-    return this.http.delete<cartProducts[]>(`${this.apiUrl}cart/${proId}`)
+  deleteProFromCart(proId: number): Observable<Cart[]> {
+    return this.http.delete<Cart[]>(`${this.apiUrl}cart/${proId}`)
   }
 
   deleteCart(cartId: number): Observable<any> {

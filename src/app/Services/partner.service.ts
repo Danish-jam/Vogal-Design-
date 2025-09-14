@@ -1,37 +1,41 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
-import { logo } from '../models/logo.model';
+import { Partner } from '../models/partner.model';
 import { Article } from '../models/article.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LogoService {
+export class PartnerService {
 
 
   constructor(private http: HttpClient) { }
 
   private apiUrl: string = 'http://localhost:3200/'
 
-  getSiteLogo(): Observable<logo[]> {
-    return this.http.get<logo[]>(this.apiUrl + 'partner')
+  getPartner(): Observable<Partner[]> {
+    return this.http.get<Partner[]>(this.apiUrl + 'partner' )
   }
 
-  postSiteLogo(newlogo: logo): Observable<logo[]> {
-    return this.http.post<logo[]>(`${this.apiUrl}partner`, newlogo)
+  getHomePagePartner(): Observable<Partner[]> {
+    return this.http.get<Partner[]>(this.apiUrl + `partner?showHomePge=true`)
   }
 
-  deleteSiteLogoFromService(proId: number): Observable<logo[]> {
-    return this.http.delete<logo[]>(`${this.apiUrl}partner/${proId}`)
+  postPartner(newlogo: Partner): Observable<Partner[]> {
+    return this.http.post<Partner[]>(`${this.apiUrl}partner`, newlogo)
   }
 
-  getSiteLogoId(id: number): Observable<logo> {
-    return this.http.get<logo>(`${this.apiUrl}partner/${id}`)
+  deletePartner(proId: number): Observable<Partner[]> {
+    return this.http.delete<Partner[]>(`${this.apiUrl}partner/${proId}`)
   }
 
-  updateSiteLogo(Id: number, updatePro: logo) {
-    return this.http.put<logo>(`${this.apiUrl}partner/${Id}`, updatePro);
+  getPartnerId(id: number): Observable<Partner> {
+    return this.http.get<Partner>(`${this.apiUrl}partner/${id}`)
+  }
+
+  updatePartner(Id: number, updatePro: Partner) {
+    return this.http.put<Partner>(`${this.apiUrl}partner/${Id}`, updatePro);
   }
 
 
@@ -44,7 +48,7 @@ export class LogoService {
     return this.http.post<Article[]>(`${this.apiUrl}ArticleVault`, newArticle)
   }
 
-  deleteNewsArticleFromService(proId: number): Observable<Article[]> {
+  deleteNewsArticle(proId: number): Observable<Article[]> {
     return this.http.delete<Article[]>(`${this.apiUrl}ArticleVault/${proId}`)
   }
 

@@ -1,4 +1,4 @@
-export interface cartProducts {
+export interface Cart {
     id: string
     userId : string
     items: [

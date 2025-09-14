@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HeaderContentEditorComponent } from './headerContentEditor/headerContentEditor.component';
+import { AddCarouselDataComponent } from './addCarouseldData/addCarouselData.component';
 import { UserAccountsComponent } from './userAccounts/userAccounts.component';
 import { AddproComponent } from './addpro/addpro.component';
 
@@ -10,7 +10,7 @@ const routes: Routes = [
     path: "admin", children: [
       {
         path: "navForm",
-        component: HeaderContentEditorComponent
+        component: AddCarouselDataComponent
       },
       {
         path: "addpro",
@@ -19,7 +19,7 @@ const routes: Routes = [
         path: "product-update/:proid",
         component: AddproComponent
       }, {
-        path: "allusers",
+        path: "Users",
         component: UserAccountsComponent
       }
     ]

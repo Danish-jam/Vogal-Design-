@@ -34,7 +34,7 @@
     {
       "id": "67",
       "name": "AllUser",
-      "link": "/admin/allusers"
+      "link": "/admin/Users"
     },
     {
       "id": "60",
@@ -248,6 +248,15 @@
       "price": 643,
       "category": "New Arrivals",
       "showOnHomePage": "true",
+      "qty": null
+    },
+    {
+      "id": "fd5e",
+      "img": "https://vogal-demo.myshopify.com/cdn/shop/products/1_f17b7405-29c8-4af8-ad8f-4046b043d4cd.jpg?v=1675920806",
+      "name": "Edgy High-Top Sneakers",
+      "price": 643,
+      "category": "New Arrivals",
+      "showOnHomePage": "false",
       "qty": null
     }
   ],

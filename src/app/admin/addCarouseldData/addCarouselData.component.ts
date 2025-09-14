@@ -2,21 +2,22 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators,ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { CarouselData } from 'src/app/models/carousel.model';
 import { NavbarCarouselService } from 'src/app/Services/NavbarCarouselService.service';
 
 @Component({
-  selector: 'app-editnav',
-  templateUrl: './HeaderContentEditor.component.html',
-  styleUrls: ['./HeaderContentEditor.component.css'],
+  selector: 'app-addCarouselData',
+  templateUrl: './addCarouselData.component.html',
+  styleUrls: ['./addCarouselData.component.css'],
  
 })
-export class HeaderContentEditorComponent implements OnInit {
+export class AddCarouselDataComponent implements OnInit {
 
   linksform!: FormGroup
   carouselForm!: FormGroup;
-  allLinks: any
+  navbarLinkData: any
   getid: any
-  carouselData: any
+  carouselData!: CarouselData[]
   constructor(
     private navCarService : NavbarCarouselService,
     private fb: FormBuilder,
@@ -58,7 +59,7 @@ this.carouselForm = this.fb.group({
 
 
     this.navCarService.getNavLinkGroup().subscribe((res) => {
-      this.allLinks = res
+      this.navbarLinkData = res
     })
 
     this.navCarService.getCarouselData().subscribe((res) => {
@@ -71,7 +72,7 @@ this.carouselForm = this.fb.group({
     const id = this.linksform.get('id')?.value;
 
 
-    const existing = this.allLinks.find((val: { id: any }) => val.id == id);
+    const existing = this.navbarLinkData.find((val: { id: any }) => val.id == id);
 
     if (existing) {
       const updatedlink = this.linksform.value
@@ -88,7 +89,7 @@ this.carouselForm = this.fb.group({
 
 
   deleteLink(Link_id: any) {
-    this.navCarService.deleteNavLinkGroupFromService(Link_id).subscribe((res) => {
+    this.navCarService.deleteNavLinkGroup(Link_id).subscribe((res) => {
       console.log(res);
       window.location.reload();
     })
@@ -144,7 +145,7 @@ this.carouselForm = this.fb.group({
 
 
   removeCarouselData(id : any){
-      this.navCarService.deleteCarouselDataFromService(id).subscribe((res) => {
+      this.navCarService.deleteCarouselData(id).subscribe((res) => {
       console.log(res);
       window.location.reload();
     })

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LogoService } from '../Services/logo.service';
+import { PartnerService } from '../Services/partner.service';
 
 @Component({
   selector: 'app-news-articles',
@@ -9,7 +9,7 @@ import { LogoService } from '../Services/logo.service';
 })
 export class NewsArticlesComponent implements OnInit{
   newsArticles : any[] = []
-  constructor(private logoSer : LogoService){
+  constructor(private logoSer : PartnerService){
 
   }
 
