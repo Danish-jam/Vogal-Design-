@@ -1,20 +1,11 @@
 {
   "cart": [
     {
-      "id": "48a2",
-      "userId": "b9b4",
+      "id": "f83a",
       "items": []
     }
   ],
-  "users": [
-    {
-      "id": "b9b4",
-      "fname": "danish",
-      "lname": "jam",
-      "email": "jam@gmail.com",
-      "password": "111111"
-    }
-  ],
+  "users": [],
   "navbar": [
     {
       "id": "41",

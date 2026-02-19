@@ -90,8 +90,102 @@ li a {
     bottom: 0;
     left: 0;
 }
-.link{
+
+.link {
     cursor: pointer;
+}
+
+/* Toast container */
+.toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Toast card */
+.toast-card {
+    display: flex;
+    align-items: center;
+    background-color: #28a745;
+    /* green */
+    color: white;
+    padding: 12px 18px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    font-weight: 500;
+    min-width: 220px;
+    max-width: 90vw;
+    /* responsive width */
+    opacity: 0;
+    transform: translateY(50px);
+    animation: slideIn 0.5s forwards;
+}
+
+/* Icon */
+.toast-icon {
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+/* Text */
+.toast-text {
+    flex: 1;
+    font-size: 14px;
+}
+
+/* Slide in animation */
+@keyframes slideIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Slide out animation */
+@keyframes slideOut {
+    to {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .toast-container {
+        bottom: 15px;
+        right: 15px;
+    }
+
+    .toast-card {
+        padding: 10px 14px;
+        min-width: 180px;
+        font-size: 13px;
+    }
+
+    .toast-icon {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .toast-container {
+        bottom: 10px;
+        right: 10px;
+    }
+
+    .toast-card {
+        padding: 8px 12px;
+        min-width: 150px;
+        font-size: 12px;
+    }
+
+    .toast-icon {
+        font-size: 16px;
+    }
 }
 
 @media only screen and (max-width: 990px) {

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavbarCarouselService } from '../Services/NavbarCarouselService.service';
 import { AuthService } from '../Services/auth.service';
 import { ProductService } from '../Services/product.service';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'app-nav',
@@ -18,11 +19,12 @@ export class NavComponent implements OnInit {
   searchitem: string = ''
   allProducts: any
   searchname: any
+  cartItems: any[] = [];
   constructor(
     private navCarService: NavbarCarouselService,
     private authSer: AuthService,
-    private proSer: ProductService
-
+    private proSer: ProductService,
+    private firestore: AngularFirestore
   ) {
 
   }
@@ -31,24 +33,30 @@ export class NavComponent implements OnInit {
   ngOnInit(): void {
     this.navCarService.getNavLinkGroup().subscribe((res) => {
       this.navLink = res
-      console.log(res);
-
     })
 
 
 
     const userInfo = this.authSer.getCurrentUser()
 
+    const userid = userInfo.uid;
 
-    if (userInfo.id) {
-      this.proSer.getCartByUserId(userInfo.id).subscribe((res) => {
-        this.cartlength = res[0].items.length
-        console.log(this.cartlength);
-      })
-    }
+    this.firestore.collection('cart').doc(userid).get().subscribe((doc: any) => {
+      if (doc.exists) {
+        this.cartItems = doc.data().items || [];
+        this.cartlength = this.cartItems.length;
+      } else {
+        this.cartlength = 0;
+      }
+    });
+
+    //   if (userInfo.id) {
+    //     this.proSer.getCartByUserId(userInfo.id).subscribe((res) => {
+    //       this.cartlength = res[0].items.length
+    //       console.log(this.cartlength);
+    //     })
+    //   }
     this.isLogin = this.authSer.isLoggedIn()
-    console.log(this.isLogin);
-
   }
 
 

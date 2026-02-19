@@ -60,9 +60,8 @@ export class ProductService {
   getHomePagePro(): Observable<Category[]> {
     return this.http.get<Category[]>(this.apiUrl + `products?showOnHomePage=true`)
   }
-
-  getAllProductCategories(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl + 'products/category');
+  getAllProductCategories(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.apiUrl}categories`);
   }
 
   postProduct(newPro: Product): Observable<Product[]> {
@@ -78,7 +77,7 @@ export class ProductService {
   }
 
   getProductByName(name: string): Observable<Product[]> {
-     return this.http.get<Product[]>(`${this.apiUrl}products?q=${name}`);
+    return this.http.get<Product[]>(`${this.apiUrl}products?q=${name}`);
   }
 
   updateProduct(Id: number, updatePro: Product) {
@@ -144,12 +143,12 @@ export class ProductService {
   }
 
 
+
   addToCart(pro: any) {
     pro.qty = pro.qty ?? 1
 
     const userInfo = JSON.parse(localStorage.getItem("user") || '[]')
     const userid = userInfo.id
-
 
     let newPro = {
       img: pro.img,

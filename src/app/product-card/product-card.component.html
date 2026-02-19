@@ -19,3 +19,16 @@
         <p class="text-danger">${{ allProducts.price }}.00</p>
     </div>
 </div>
+
+
+
+
+<!-- Toast Notification -->
+<div class="toast-container" *ngIf="showToast">
+  <div class="toast-card">
+    <i class="bi bi-check-circle-fill toast-icon"></i>
+    <div class="toast-text">
+      Product added to cart!
+    </div>
+  </div>
+</div>

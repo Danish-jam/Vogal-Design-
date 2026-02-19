@@ -13,24 +13,13 @@
       </div>
       <div class="offcanvas-body ms-lg-5 ps-xxl-5 p-0">
         <ul class="navbar-nav flex-grow-1  d-flex justify-content-center align-items-center pe-lg-3 ps-xxl-5">
-          <li class="nav-item py-2 ps-3 py-lg-0 ps-lg-0 ms-xll-5 ps-xxl-3">
-            <a class="nav-link fw-bold capitalize-first" routerLink="">Home</a>
+          <li class="nav-item py-2 ps-3 py-lg-0 ps-lg-0 ms-xll-5 ps-xxl-3" *ngFor="let navText of navLink">
+            <a class="nav-link fw-bold capitalize-first" [routerLink]="navText.link" routerLinkActive="active">
+              {{ navText.name }}
+            </a>
+
           </li>
-            <li class="nav-item py-2 ps-3 py-lg-0 ps-lg-0 ms-xll-5 ps-xxl-3">
-            <a class="nav-link fw-bold capitalize-first" routerLink="">Categories</a>
-          </li>
-            <li class="nav-item py-2 ps-3 py-lg-0 ps-lg-0 ms-xll-5 ps-xxl-3">
-            <a class="nav-link fw-bold capitalize-first" routerLink=""></a>
-          </li>
-            <li class="nav-item py-2 ps-3 py-lg-0 ps-lg-0 ms-xll-5 ps-xxl-3">
-            <a class="nav-link fw-bold capitalize-first" routerLink=""></a>
-          </li>
-            <li class="nav-item py-2 ps-3 py-lg-0 ps-lg-0 ms-xll-5 ps-xxl-3">
-            <a class="nav-link fw-bold capitalize-first" routerLink=""></a>
-          </li>
-            <li class="nav-item py-2 ps-3 py-lg-0 ps-lg-0 ms-xll-5 ps-xxl-3">
-            <a class="nav-link fw-bold capitalize-first" routerLink=""></a>
-          </li>
+
         </ul>
         <div class="language-link d-lg-none ">
           <h5 class="pt-2 ps-3">Language</h5>
@@ -81,8 +70,9 @@
                   <div class="container">
                     <div class="mb-5 position-relative search-wrapper d-flex justify-content-center">
                       <div class="input-group stylish-search mb-3">
-                        <input type="text" id="search" name="search" [(ngModel)]="searchitem"  (ngModelChange)="onSearchChange($event)"
-                          class="form-control search-input" placeholder="Search for products..." />
+                        <input type="text" id="search" name="search" [(ngModel)]="searchitem"
+                          (ngModelChange)="onSearchChange($event)" class="form-control search-input"
+                          placeholder="Search for products..." />
                         <button class="btn btn-primary search-btn" type="button" (click)="searchPro()">
                           <i class="bi bi-search"></i> Search
                         </button>
@@ -93,8 +83,8 @@
                       <div class="spinner-border  text-light" role="status">
                         <span class="visually-hidden">Loading...</span>
                       </div>
-                    </div> 
-                       <h3 class="text-center mt-4 mb-3 text-white" *ngIf="searchname == 0">No Found Match !</h3>
+                    </div>
+                    <h3 class="text-center mt-4 mb-3 text-white" *ngIf="searchname == 0">No Found Match !</h3>
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4">
                       <div class="col" *ngFor="let pro of allProducts | searchPro : searchitem">
                         <div class="custom-card card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
@@ -129,7 +119,7 @@
               class="bi bi-person-circle"></i></a></li>
         <li class="mx-sm-3 mx-1" *ngIf="isLogin"><a [routerLink]="['/admin/navForm']"><i
               class="bi bi-pencil-square"></i></a></li>
-        <li class="mx-sm-3 mx-1 cart-container"><a class="cart-icon" routerLink="cart"><i
+        <li class="mx-sm-3 mx-1 cart-container" *ngIf="isLogin"><a class="cart-icon" routerLink="cart"><i
               class="bi bi-cart-check"></i></a>
           <span *ngIf="isLogin" class="cart-count">{{cartlength}}</span>
         </li>

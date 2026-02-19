@@ -18,17 +18,19 @@ constructor(
 
 
 ngOnInit(): void {
-  this.authSer.getUsers().subscribe((res) =>{
+  this.authSer.getUsersFormFirebase().subscribe((res) =>{
      this.users = res
+     console.log(res);
+     
   })
+
+  
 }
 
 
 deleteUser(id : number){
-
   this.authSer.deleteUser(id).subscribe((res) =>{
-    console.log(res);
-    
+    console.log(res); 
   })
 }
 

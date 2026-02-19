@@ -1,40 +1,60 @@
 <div class="signup-wrapper d-flex align-items-center justify-content-center">
-  <div class="form-container glass-card p-3 p-md-4 p-lg-5 rounded-4 shadow-lg w-100">
-    <form class="signup-form" [formGroup]="newUser" (ngSubmit)="resgister()">
-      <h2 class="text-center mb-4 fw-bold text-dark">Create Account</h2>
-      <div class="row g-3">
-        <div class="col-12 col-md-6">
-          <label class="form-label">First Name</label>
-          <input type="text" class="form-control" formControlName="fname" placeholder="First name">
+  <div class="signup-card row g-0 shadow-lg rounded-4 overflow-hidden">
+
+    <!-- Left Image Side -->
+    <div class="col-lg-6 d-none d-lg-block image-side"></div>
+
+    <!-- Right Form Side -->
+    <div class="col-12 col-lg-6 p-4 p-md-5 bg-white">
+      <form [formGroup]="newUser" (ngSubmit)="signup()">
+
+        <h3 class="fw-bold mb-4 text-center">Create Account</h3>
+
+        <div class="row g-3">
+
+          <div class="col-md-6">
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-person"></i></span>
+              <input type="text" class="form-control" formControlName="fname" placeholder="First name">
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-person"></i></span>
+              <input type="text" class="form-control" formControlName="lname" placeholder="Last name">
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+              <input type="email" class="form-control" formControlName="email" placeholder="Email">
+            </div>
+          </div>
+
+          <div class="mb-4 position-relative">
+            <input [type]="passwordType ? 'text' : 'password'" class="form-control custom-input pe-5"
+              placeholder="Password" formControlName="password">
+            <i (click)="changeType()" class="bi position-absolute top-50 end-0 translate-middle-y me-3"
+              [ngClass]="passwordType ? 'bi-eye-fill' : 'bi-eye-slash-fill'">
+            </i>
+          </div>
+
+          <div class="col-12">
+            <button type="submit" class="btn btn-dark w-100 py-2 fw-bold" [disabled]="!newUser.valid">
+              Sign Up
+            </button>
+          </div>
         </div>
-        <div class="col-12 col-md-6">
-          <label class="form-label">Last Name</label>
-          <input type="text" class="form-control" formControlName="lname" placeholder="Last name">
-        </div>
-        <div class="col-12">
-          <label class="form-label">Email</label>
-          <input type="email" class="form-control" formControlName="email" placeholder="Email address">
-          <small *ngIf="email?.invalid && email?.touched" class="text-danger d-block mt-1">
-            <span *ngIf="email?.errors?.['required']">Email is required.</span>
-            <span *ngIf="email?.errors?.['email']">Please enter a valid email address.</span>
-          </small>
-        </div>
-        <div class="col-12 position-relative">
-          <label class="form-label">Password</label>
-          <input [type]="passwordType ? 'text' : 'password'" formControlName="password"
-            class="form-control" placeholder="Enter password">
-          <i (click)="changeType()" class="bi position-absolute top-50 end-0 translate-middle-y pe-3 text-dark"
-            [ngClass]="passwordType ? 'bi-eye-slash-fill' : 'bi-eye-fill'"></i>
-          <p class="text-danger mt-2 mb-0" *ngIf="newUser.get('password')?.hasError('required')">
-            Password is required
-          </p>
-        </div>
-        <div class="col-12 text-center">
-          <button type="submit" class="btn btn-dark w-100 py-2 fw-bold" [disabled]="!newUser.valid">
-            Sign Up
-          </button>
-        </div>
-      </div>
-    </form>
+      </form>
+      <p class="text-center mt-3 small">
+        Already have an account?
+        <a routerLink="/user/login" class="fw-bold text-decoration-none">
+          Login
+        </a>
+      </p>
+
+    </div>
+
   </div>
 </div>

@@ -21,11 +21,11 @@
             <ul class="nav flex-column gap-3">
               <li class="category-item rounded-3 fw-medium border-0" *ngFor="let catgr of categories; let i = index"
                 [ngClass]="{ 'active-category': selectedIndex === i }"
-                (click)="getProByCategories(catgr); selectedIndex = i">
+                (click)="getProByCategories(catgr.name); selectedIndex = i">
                 <button class="custom-nav-link btn px-3 py-2 w-100 text-start text-white"
-                  [routerLink]="['/categories', catgr]" data-bs-dismiss="modal">
+                  [routerLink]="['/categories', catgr.name]" data-bs-dismiss="modal">
                   <i class="bi bi-arrow-right-circle me-2"></i>
-                  {{ catgr.toUpperCase() }}
+                  {{ catgr.name.toUpperCase() }}
                 </button>
               </li>
             </ul>
@@ -43,10 +43,12 @@
 
     <ul class="nav flex-column gap-3">
       <li class="category-item rounded-3 fw-medium border-0" *ngFor="let catgr of categories; let i = index"
-        [ngClass]="{ 'active-category': selectedIndex === i }" (click)="getProByCategories(catgr); selectedIndex = i">
-        <button class="custom-nav-link btn px-3 py-2 w-100 text-start text-white" [routerLink]="['/categories', catgr]">
+        [ngClass]="{ 'active-category': selectedIndex === i }"
+        (click)="getProByCategories(catgr.name); selectedIndex = i">
+        <button class="custom-nav-link btn px-3 py-2 w-100 text-start text-white"
+          [routerLink]="['/categories', catgr.name]">
           <i class="bi bi-arrow-right-circle me-2"></i>
-          {{ catgr.toUpperCase() }}
+          {{ catgr.name.toUpperCase() }}
         </button>
       </li>
     </ul>
@@ -74,3 +76,4 @@
   </div>
 
 </div>
+

@@ -1,22 +1,48 @@
+/* Table alignment */
 .table th, .table td {
-  vertical-align: middle;
-  text-align: center;
+  vertical-align: middle; /* keeps content vertically centered */
+  text-align: center;     /* keeps content horizontally centered */
 }
-.card-header{
-    background-color: #667EEA;
+
+/* Card header style */
+.card-header {
+  background-color: #667EEA;
 }
-.text-name{
-   color: #667EEA;
+
+/* Text color for names */
+.text-name {
+  color: #667EEA;
 }
+
+/* Buttons container inside table cells */
+.table td .d-flex {
+  justify-content: center; /* centers buttons horizontally */
+  align-items: center;     /* centers buttons vertically */
+  gap: 0.5rem;             /* spacing between buttons */
+}
+
+/* Button adjustments */
+.table td button {
+  padding: 0.4rem;         /* slightly smaller padding for small screens */
+  min-width: 36px;         /* keeps circular shape */
+  min-height: 36px;
+}
+
+/* Responsive adjustments for small screens */
 @media (max-width: 576px) {
   .table td, .table th {
-    padding: 0.3rem;
-    font-size: 0.85rem;
+    padding: 0.25rem 0.3rem;  /* reduces cell padding */
+    font-size: 0.8rem;        /* smaller font size */
   }
   .card-header h4 {
-    font-size: 1.25rem;
+    font-size: 1.1rem;        /* slightly smaller title */
   }
   .card-header small {
-    font-size: 0.75rem;
+    font-size: 0.7rem;        /* smaller subtitle */
+  }
+  .table td .d-flex button {
+    padding: 0.35rem;         /* adjust button padding */
+    min-width: 32px;
+    min-height: 32px;
   }
 }

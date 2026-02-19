@@ -1,27 +1,40 @@
-<div class="container mt-5">
+<div class="container mt-5" *ngIf="spinner">
 
-  <div class="cartbox" *ngFor="let pro of cartItems">
-
-    <div class="cart-item mb-2" *ngFor="let item of  pro.items">
+  <div class="cartbox">
+    <div class="cart-item mb-3" *ngFor="let item of cartItems">
+      
+      <!-- Image -->
       <div class="cart-item__image">
-        <img src="{{item.img}}" alt="Cotton T-shirt" class="card-img" />
+        <img src="{{item.img}}" alt="{{item.name}}" />
       </div>
 
+      <!-- Info -->
       <div class="cart-item__info">
+        <span class="cart-item__category">{{item.category || 'Product'}}</span>
         <span class="cart-item__name">{{item.name}}</span>
-        <span class="cart-item__category">Shirt</span>
       </div>
 
+      <!-- Quantity -->
       <div class="cart-item__qty">
         <button class="qty-btn" (click)="decreaseQty(item)">−</button>
         <span class="qty">{{item.qty}}</span>
         <button class="qty-btn" (click)="increaseQty(item)">+</button>
       </div>
 
+      <!-- Price -->
       <div class="cart-item__price">€{{item.price}}</div>
 
+      <!-- Remove -->
       <button class="cart-item__remove" aria-label="Remove" (click)="removeItem(item)">×</button>
     </div>
   </div>
- <h1 *ngIf="!cartlength" class="text-center text-black">No Products In Cart</h1>
+
+  <h1 *ngIf="!cartlength" class="text-center text-black mt-5">No Products In Cart</h1>
+</div>
+
+<!-- Spinner -->
+<div class="d-flex justify-content-center mt-5 pt-5" *ngIf="!spinner">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
 </div>

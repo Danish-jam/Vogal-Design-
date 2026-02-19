@@ -9,7 +9,7 @@ import { AuthService } from 'src/app/Services/auth.service';
   styleUrls: ['./signup.component.css'],
 })
 export class SignupComponent implements OnInit {
-passwordType : boolean = false
+  passwordType: boolean = false
   newUser!: FormGroup
   constructor(
     private fb: FormBuilder,
@@ -29,21 +29,30 @@ passwordType : boolean = false
   }
 
 
-  resgister() {
-    this.authSer.postUser(this.newUser.value).subscribe((res) => {
-      console.log(res);
-      this.newUser.reset()
-      window.location.href = '/user/login';
-    })
-
+  signup() {
+    this.authSer.signup(
+      this.newUser.get('fname')?.value, 
+      this.newUser.get('lname')?.value, 
+      this.newUser.get('email')?.value, 
+      this.newUser.get('password')?.value,
+    )
   }
 
+  // resgister() {
+  //   this.authSer.postUser(this.newUser.value).subscribe((res) => {
+  //     console.log(res);
+  //     this.newUser.reset()
+  //     window.location.href = '/user/login';
+  //   })
 
-  changeType(){
+  // }
+
+
+  changeType() {
     this.passwordType = !this.passwordType
   }
 
- get email() {
+  get email() {
     return this.newUser.get('email');
   }
   get firstName() {

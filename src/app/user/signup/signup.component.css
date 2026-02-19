@@ -1,80 +1,32 @@
-
 .signup-wrapper {
-    min-height: 88vh;
-    background: linear-gradient(135deg, #f0f2f5, #c2e9fb);
-    padding: 2rem;
-
+    min-height: 90vh;
+    background: linear-gradient(135deg, #e0eafc, #cfdef3);
 }
 
-.glass-card {
-    max-width: 600px;
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+.signup-card {
+    max-width: 900px;
+    width: 100%;
+    background: #fff;
+}
+
+.image-side {
+    background: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f') center/cover no-repeat;
+}
+
+.input-group-text {
+    background: #f8f9fa;
+    border: none;
 }
 
 .bi {
     cursor: pointer;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
 }
 
-input,
 button {
-    transition: all 0.3s ease;
+    transition: 0.3s;
 }
 
-input:focus {
-    border-color: #030303;
-    box-shadow: 0 0 0 0.25rem rgba(7, 7, 7, 0.25);
-}
-
-button.btn-dark {
-    background-color: #212529;
-    color: #fff;
-    transition: all 0.3s ease;
-    border: none;
-}
-
-button.btn-dark:hover {
-    background-color: #343a40;
-    box-shadow: 0 4px 12px rgba(52, 58, 64, 0.3);
-    transform: translateY(-1px);
-}
-
-button.btn-dark:active {
-    transform: translateY(1px);
-    box-shadow: none;
-}
-
-button.btn-primary {
-    background-color: #6c63ff;
-    color: white;
-    transition: all 0.3s ease;
-    border: none;
-}
-
-button.btn-primary:hover {
-    background-color: #574fd6;
-    box-shadow: 0 4px 12px rgba(108, 99, 255, 0.4);
-    transform: translateY(-1px);
-}
-
-
-/* Mobile Adjustments */
-@media (max-width: 576px) {
-    .glass-card {
-        padding: 1.5rem !important;
-    }
-
-    h2 {
-        font-size: 1.5rem;
-    }
-
-    .form-label {
-        font-size: 0.95rem;
-    }
-
-    button {
-        font-size: 0.95rem;
-    }
+button:hover {
+    transform: translateY(-2px);
 }
