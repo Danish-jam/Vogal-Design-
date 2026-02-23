@@ -72,7 +72,7 @@ export class AddproComponent implements OnInit {
 
     this.id = this.activtedRoute.snapshot.paramMap.get('proid')
     console.log(this.id);
- 
+
 
     if (this.id) {
       this.proSer.getProductId(this.id).subscribe((res: any) => {
@@ -125,7 +125,6 @@ export class AddproComponent implements OnInit {
       price: ['', Validators.required],
       category: ['', Validators.required],
       showOnHomePage: ['', Validators.required],
-      qty: [this.proQty]
     })
 
 
@@ -146,10 +145,10 @@ export class AddproComponent implements OnInit {
   submitCatgrPro() {
 
     if (this.id) {
-      this.proSer.updateCategrPro(this.id, this.PopularCatgrForm.value).subscribe((res) => {
-        console.log(res);
-        this.PopularCatgrForm.reset();
-      })
+      // this.proSer.updateCategrPro(this.id, this.PopularCatgrForm.value).subscribe((res) => {
+      //   console.log(res);
+      //   this.PopularCatgrForm.reset();
+      // })
     } else {
       this.proSer.postCategrPro(this.PopularCatgrForm.value).subscribe((res) => {
         console.log(res);
@@ -163,28 +162,40 @@ export class AddproComponent implements OnInit {
 
   addNewPro() {
 
+    if (this.productForm.invalid) return;
+
+    const formValue = this.productForm.value;
+    const newName = formValue.name?.trim();
+
+    if (!newName) return;
+
+    // 🔹 UPDATE MODE
     if (this.id) {
-      this.proSer.updateProduct(this.id, this.productForm.value).subscribe((res) => {
-        console.log(res);
-        this.productForm.reset();
-      })
-    } else {
-      //  check  if product name already exist then show msg otherwise create new product 
-      const newName = this.productForm.get('name')?.value
-      console.log(typeof newName);
-      
-      this.proSer.getProductByName(newName.trim()).subscribe((res) => {
-        console.log(res);
-        if (res) {
-          alert("This name is already assigned to a product.");
-        } else {
-          this.proSer.postProduct(this.productForm.value).subscribe((res) => {
-            this.productForm.reset();
-          })
-        }
-      })
 
+      this.proSer.updateProduct(this.id, formValue)
+        .subscribe(() => {
+          this.productForm.reset();
+        });
 
+    }
+
+    // 🔹 CREATE MODE
+    else {
+
+      this.proSer.getProductByName(newName)
+        .subscribe((res) => {
+
+          if (res.length > 0) {
+            alert("This name is already assigned to a product.");
+            return;
+          }
+
+          this.proSer.postProduct(formValue)
+            .subscribe(() => {
+              this.productForm.reset();
+            });
+
+        });
 
     }
 

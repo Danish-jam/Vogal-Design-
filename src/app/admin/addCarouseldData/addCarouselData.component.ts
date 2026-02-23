@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators,ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CarouselData } from 'src/app/models/carousel.model';
 import { NavbarCarouselService } from 'src/app/Services/NavbarCarouselService.service';
@@ -9,17 +9,17 @@ import { NavbarCarouselService } from 'src/app/Services/NavbarCarouselService.se
   selector: 'app-addCarouselData',
   templateUrl: './addCarouselData.component.html',
   styleUrls: ['./addCarouselData.component.css'],
- 
+
 })
 export class AddCarouselDataComponent implements OnInit {
 
   linksform!: FormGroup
   carouselForm!: FormGroup;
-  navbarLinkData: any
+  navbarLinkData: any[] = []
   getid: any
-  carouselData!: CarouselData[]
+  carouselData: CarouselData[] = []
   constructor(
-    private navCarService : NavbarCarouselService,
+    private navCarService: NavbarCarouselService,
     private fb: FormBuilder,
     private route: ActivatedRoute
   ) {
@@ -33,26 +33,27 @@ export class AddCarouselDataComponent implements OnInit {
     const redomId = Math.floor(Math.random() * 100)
 
     this.linksform = this.fb.group({
-      id: String([redomId]),
+      id: [String(redomId)],
       name: ['', Validators.required],
-      link: ['', Validators.required]
+      link: ['', Validators.required],
+      role: ['', Validators.required],
     });
 
 
-this.carouselForm = this.fb.group({
-  id: [String(redomId)],
-  bgImg: ['', Validators.required],
-  heading_1: ['', Validators.required],
-  heading_2: ['', Validators.required],
-  text: ['', Validators.required],
-  bntText_1: [''],
-  bntText_2: [''],
-  bntText_3: [''],
-  
-  bntLink_1: [''],
-  bntLink_2: [''],
-  bntLink_3: [''],
-});
+    this.carouselForm = this.fb.group({
+      id: [String(redomId)],
+      bgImg: ['', Validators.required],
+      heading_1: ['', Validators.required],
+      heading_2: ['', Validators.required],
+      text: ['', Validators.required],
+      bntText_1: [''],
+      bntText_2: [''],
+      bntText_3: [''],
+
+      bntLink_1: [''],
+      bntLink_2: [''],
+      bntLink_3: [''],
+    });
 
 
 
@@ -69,30 +70,66 @@ this.carouselForm = this.fb.group({
   }
 
   onSubmit() {
+    if (!this.linksform.valid) {
+      alert('Please fill all required fields');
+      return;
+    }
+
     const id = this.linksform.get('id')?.value;
+    const formData = this.linksform.value;
 
-
-    const existing = this.navbarLinkData.find((val: { id: any }) => val.id == id);
+    const existing = this.navbarLinkData?.find((val: { id: any }) => val.id == id);
 
     if (existing) {
-      const updatedlink = this.linksform.value
-      this.navCarService.updateNavLinkGroup(id, updatedlink).subscribe((res) => {
-        window.location.reload();
-      });
+      // Update existing navbar link in Firebase
+      this.navCarService.updateNavLinkGroup(id, formData).subscribe(
+        (res) => {
+          alert('Navbar link updated successfully!');
+          this.linksform.reset();
+          this.navCarService.getNavLinkGroup().subscribe((data) => {
+            this.navbarLinkData = data;
+          });
+        },
+        (error) => {
+          console.error('Error updating navbar link:', error);
+          alert('Failed to update navbar link');
+        }
+      );
     } else {
-
-      this.navCarService.postNavLinkGroup(this.linksform.value).subscribe((res) => {
-        window.location.reload();
-      });
+      // Add new navbar link to Firebase
+      this.navCarService.postNavLinkGroup(formData).subscribe(
+        (res) => {
+          alert('Navbar link added successfully!');
+          this.linksform.reset();
+          this.navCarService.getNavLinkGroup().subscribe((data) => {
+            this.navbarLinkData = data;
+          });
+        },
+        (error) => {
+          console.error('Error adding navbar link:', error);
+          alert('Failed to add navbar link');
+        }
+      );
     }
   }
 
 
-  deleteLink(Link_id: any) {
-    this.navCarService.deleteNavLinkGroup(Link_id).subscribe((res) => {
-      console.log(res);
-      window.location.reload();
-    })
+  deleteLink(Link_id: string) {
+    if (confirm('Are you sure you want to delete this navbar link?')) {
+      this.navCarService.deleteNavLinkGroup(Link_id).subscribe(
+        (res) => {
+          console.log('Navbar link deleted:', res);
+          alert('Navbar link deleted successfully!');
+          this.navCarService.getNavLinkGroup().subscribe((data) => {
+            this.navbarLinkData = data;
+          });
+        },
+        (error) => {
+          console.error('Error deleting navbar link:', error);
+          alert('Failed to delete navbar link');
+        }
+      );
+    }
   }
 
   editLink(val: any) {
@@ -108,20 +145,52 @@ this.carouselForm = this.fb.group({
 
 
   onSubmitCarouslData() {
-    const id = this.carouselForm.get('id')?.value;
-    const existing = this.carouselData.find((val: { id: any }) => val.id == id);
+    if (!this.carouselForm.valid) {
+      alert('Please fill all required fields');
+      return;
+    }
+
+    let id = this.carouselForm.get('id')?.value;
+    let formData = this.carouselForm.value;
+
+    if (!id || id.trim() === '') {
+      id = Date.now().toString();
+      formData.id = id;
+      this.carouselForm.get('id')?.setValue(id);
+    }
+
+    const existing = this.carouselData?.find((val: { id: any }) => val.id == id);
 
     if (existing) {
-      const updateCarousel = this.carouselForm.value
-
-      this.navCarService.updateCarouselData(id, updateCarousel).subscribe((res) => {
-        window.location.reload();
-      });
+      // Update existing carousel in Firebase
+      this.navCarService.updateCarouselData(id, formData).subscribe(
+        (res) => {
+          alert('Carousel data updated successfully!');
+          this.carouselForm.reset();
+          this.navCarService.getCarouselData().subscribe((data) => {
+            this.carouselData = data;
+          });
+        },
+        (error) => {
+          console.error('Error updating carousel:', error);
+          alert('Failed to update carousel data');
+        }
+      );
     } else {
-
-      this.navCarService.postCarouselData(this.carouselForm.value).subscribe((res) => {
-        window.location.reload();
-      });
+      // Add new carousel to Firebase
+      this.navCarService.postCarouselData(formData).subscribe(
+        (res) => {
+          alert('Carousel data added successfully!');
+          this.carouselForm.reset();
+          this.navCarService.getCarouselData().subscribe((data) => {
+            this.carouselData = data;
+          });
+        },
+        (error) => {
+          console.error('Error adding carousel:', error);
+          alert('Failed to add carousel data');
+        }
+      );
     }
   }
 
@@ -144,11 +213,22 @@ this.carouselForm = this.fb.group({
   }
 
 
-  removeCarouselData(id : any){
-      this.navCarService.deleteCarouselData(id).subscribe((res) => {
-      console.log(res);
-      window.location.reload();
-    })
+  removeCarouselData(id: string) {
+    if (confirm('Are you sure you want to delete this carousel?')) {
+      this.navCarService.deleteCarouselData(id).subscribe(
+        (res) => {
+          console.log('Carousel deleted:', res);
+          alert('Carousel deleted successfully!');
+          this.navCarService.getCarouselData().subscribe((data) => {
+            this.carouselData = data;
+          });
+        },
+        (error) => {
+          console.error('Error deleting carousel:', error);
+          alert('Failed to delete carousel');
+        }
+      );
+    }
   }
 
 

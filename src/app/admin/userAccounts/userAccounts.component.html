@@ -1,95 +1,97 @@
-<div class="container my-5">
-  <div class="card shadow-sm border-0">
-    <!-- Card Header -->
-    <div
-      class="card-header text-white rounded-top-4 d-flex align-items-center justify-content-between flex-wrap bg-primary">
-      <h4 class="mb-0 fw-bold">Logged-in Users</h4>
-      <small class="fst-italic mt-2 mt-sm-0">Manage your users easily</small>
+<div class="container my-4">
+
+  <div class="admin-table-card">
+
+    <!-- Header -->
+    <div class="admin-table-header d-flex justify-content-between align-items-center flex-wrap">
+      <h5 class="mb-2 mb-sm-0 text-white fw-semibold">
+        User Role Management
+      </h5>
+
+      <span class="total-badge">
+        {{ users.length }} Users
+      </span>
     </div>
 
-    <!-- Table -->
     <div class="table-responsive">
-      <table class="table table-striped table-hover align-middle mb-0">
-        <thead class="table-dark">
+
+      <table class="table align-middle mb-0 admin-table">
+
+        <thead>
           <tr>
-            <th scope="col" style="width: 5%;">#</th>
-            <th scope="col" style="width: 25%;">First Name</th>
-            <th scope="col" style="width: 25%;">Last Name</th>
-            <th scope="col" style="width: 30%;">Email</th>
-            <th scope="col" style="width: 15%;">Actions</th>
+            <th>#</th>
+            <th>User</th>
+            <th class="d-none d-lg-table-cell">Email</th>
+            <th>Role</th>
+            <th class="text-lg-end">Action</th>
           </tr>
         </thead>
-        <tbody>
-          <tr *ngFor="let user of users; let i = index" class="user-row">
-            <th scope="row" class="text-secondary">{{ i + 1 }}</th>
-            <td class="fw-semibold text-name">{{ user.fname }}</td>
-            <td class="fw-semibold text-name">{{ user.lname }}</td>
-            <td class="text-truncate" style="max-width: 250px;">{{ user.email }}</td>
-            <td class="d-flex gap-2 justify-content-center">
-              <!-- Delete Button -->
-              <button
-                class="btn btn-outline-danger btn-sm rounded-circle p-2 d-flex align-items-center justify-content-center"
-                (click)="deleteUser(user.id)" title="Delete User">
-                <i class="bi bi-trash fs-6"></i>
-              </button>
 
-              <!-- Login Button -->
-              <button
-               [routerLink]="['login',user.uid]"
-                class="btn btn-outline-primary btn-sm rounded-circle p-2 d-flex align-items-center justify-content-center"
-                title="Login as User">
-                <i class="bi bi-person-circle"></i>
-              </button>
+        <tbody>
+
+          <tr *ngFor="let user of users; let i = index">
+
+            <!-- Index -->
+            <td class="index">{{ i + 1 }}</td>
+
+            <!-- Name + Mobile Email -->
+            <td>
+              <div class="fw-semibold name-text">
+                {{ user.fname }} {{ user.lname }}
+              </div>
+
+              <!-- Email for mobile -->
+              <small class="text-muted d-block d-lg-none">
+                {{ user.email }}
+              </small>
+            </td>
+
+            <!-- Desktop Email -->
+            <td class="text-muted d-none d-lg-table-cell email-text">
+              {{ user.email }}
+            </td>
+
+            <!-- Role -->
+            <td>
+              <span class="role-badge"
+                [ngClass]="user.role === 'admin' ? 'admin' : 'user'">
+                {{ user.role }}
+              </span>
+            </td>
+
+            <!-- Action Buttons -->
+            <td class="text-lg-end">
+
+              <div class="d-flex justify-content-lg-end gap-2 flex-wrap">
+
+                <!-- Make Admin -->
+                <button *ngIf="user.role !== 'admin'"
+                        class="icon-btn make-btn"
+                        (click)="makeAdmin(user)"
+                        title="Make Admin">
+                  <i class="bi bi-shield-check"></i>
+                </button>
+
+                <!-- Remove Admin -->
+                <button *ngIf="user.role === 'admin'"
+                        class="icon-btn remove-btn"
+                        (click)="removeAdmin(user)"
+                        title="Remove Admin">
+                  <i class="bi bi-shield-x"></i>
+                </button>
+
+              </div>
+
             </td>
 
           </tr>
+
         </tbody>
+
       </table>
+
     </div>
+
   </div>
+
 </div>
-
-
-
-
-
-
-<!-- 
-
-export interface InvoiceItem {
-  description: string;
-  quantity: number;
-  unitPrice: number;
-}
-
-export interface Invoice {
-  id: string;
-  clientId: string;
-  date: string;
-  dueDate: string;
-  status: 'Paid' | 'Unpaid' | 'Overdue';
-  items: InvoiceItem[];
-  notes?: string;
-}
-
-invoice.service.ts
-
-addInvoice
-updateInvoice
-deleteInvoice
-
-
-
-
-export interface Client {
-  id: string;
-  name: string;
-  email: string;
-  address: string;
-  phone: string;
-}
-client.service.ts
-
-addClient
-deleteClient
-updateClient -->

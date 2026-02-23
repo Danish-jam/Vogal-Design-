@@ -11,15 +11,27 @@
         <h5 class="offcanvas-title" id="offcanvasNavbarLabel">MENU</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
-      <div class="offcanvas-body ms-lg-5 ps-xxl-5 p-0">
-        <ul class="navbar-nav flex-grow-1  d-flex justify-content-center align-items-center pe-lg-3 ps-xxl-5">
-          <li class="nav-item py-2 ps-3 py-lg-0 ps-lg-0 ms-xll-5 ps-xxl-3" *ngFor="let navText of navLink">
-            <a class="nav-link fw-bold capitalize-first" [routerLink]="navText.link" routerLinkActive="active">
-              {{ navText.name }}
-            </a>
 
+      <!-- Links -->
+
+      <div class="offcanvas-body ms-lg-5 ps-xxl-5 px-auto">
+        <ul class="navbar-nav flex-grow-1 d-flex justify-content-center align-items-center pe-lg-3 ps-xxl-5">
+          <!-- Always show Home first -->
+          <li class="nav-item">
+            <a class="nav-link fw-bold" [routerLink]="'home'" routerLinkActive="active">
+              Home
+            </a>
           </li>
 
+          <!-- Loop through the rest of the links -->
+          <ng-container *ngFor="let navText of navLink">
+            <li class="nav-item"
+              *ngIf="navText.name !== 'Home' && (navText.role === userRole || navText.role === 'all')">
+              <a class="nav-link fw-bold" [routerLink]="navText.link" routerLinkActive="active">
+                {{ navText.name }}
+              </a>
+            </li>
+          </ng-container>
         </ul>
         <div class="language-link d-lg-none ">
           <h5 class="pt-2 ps-3">Language</h5>
@@ -117,7 +129,7 @@
         </li>
         <li class="mx-sm-3 mx-1" *ngIf="!isLogin"><a [routerLink]="['/user/login']"><i
               class="bi bi-person-circle"></i></a></li>
-        <li class="mx-sm-3 mx-1" *ngIf="isLogin"><a [routerLink]="['/admin/navForm']"><i
+        <li class="mx-sm-3 mx-1" *ngIf="isLogin && userRole === 'admin'"><a [routerLink]="['/admin/navForm']"><i
               class="bi bi-pencil-square"></i></a></li>
         <li class="mx-sm-3 mx-1 cart-container" *ngIf="isLogin"><a class="cart-icon" routerLink="cart"><i
               class="bi bi-cart-check"></i></a>

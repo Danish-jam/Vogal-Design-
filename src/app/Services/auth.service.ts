@@ -17,7 +17,8 @@ export class AuthService {
     private router: Router
   ) { }
 
-
+// json-server --watch db.json --port 3200
+  
   private api = 'http://localhost:3200/users';
   private apiUrl: string = 'http://localhost:3200/'
 
@@ -60,17 +61,28 @@ export class AuthService {
 
     this.fireauth.createUserWithEmailAndPassword(email, password)
       .then(async res => {
+
         const userId = res.user?.uid;
+
         if (userId) {
+
+          let role = 'user';
+
+          if (email === 'danish@gmail.com') {
+            role = 'admin';
+          }
+
           await this.firestore.collection('users').doc(userId).set({
             uid: userId,
             fname: fname,
             lname: lname,
             email: email,
+            role: role   
           });
-         window.location.href = `/user/login?id=${userId}`;
+
+          window.location.href = `/user/login?id=${userId}`;
         }
-      })
+      });
   }
 
 

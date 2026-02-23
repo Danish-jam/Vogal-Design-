@@ -6,28 +6,28 @@ import { ProductService } from '../Services/product.service';
   selector: 'app-PopularCategories',
   templateUrl: './popularCategories.component.html',
   styleUrls: ['./popularCategories.component.css'],
- 
+
 })
-export class PopularCategoriesComponent implements OnInit{
+export class PopularCategoriesComponent implements OnInit {
 
- @Input() topCatgrPro: any 
+  @Input() topCatgrPro: any
 
-constructor(private proSer: ProductService){
-   
-}
+  constructor(private proSer: ProductService) {
 
-
-ngOnInit(): void {
-  // this.proSer.getCategrPro().subscribe((res)=>{
-  //    this.topCatgrPro = res.filter( pro => pro.catgrHomepage == "true")
-  // })
-  console.log(this.topCatgrPro);
-  
-}
+  }
 
 
+  ngOnInit(): void {
+    this.proSer.getAllProductCategories().subscribe((res) => {
+      console.log(res);
+      this.topCatgrPro = res.slice(0, 5)
+    })
 
-   // [
+  }
+
+
+
+  // [
   //   {
   //     img: 'https://vogal-demo.myshopify.com/cdn/shop/files/sb2_560x.jpg?v=1676711299',
   //     heading: 'Bold Moves Exclusive',

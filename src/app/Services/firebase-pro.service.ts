@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Router } from '@angular/router';
-import { Cart } from '../models/cart.model';
 import { AuthService } from './auth.service';
 import { Product } from '../models/product.model';
 import { Observable } from 'rxjs';
@@ -122,5 +120,8 @@ export class FirebaseProService {
     return this.firestore.collection('users').doc(id).valueChanges();
   }
 
+  navLinks(){
+     
+  }
 
   }

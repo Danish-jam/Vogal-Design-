@@ -44,7 +44,7 @@ export class CategoriesComponent implements OnInit {
     console.log(item);
     this.proSer.getQuestionsByCategory(item).subscribe((res) => {
       this.products = res
-      console.log(item);
+      console.log(res);
     })
   }
 

@@ -20,6 +20,7 @@ export class NavComponent implements OnInit {
   allProducts: any
   searchname: any
   cartItems: any[] = [];
+  userRole: string = '';
   constructor(
     private navCarService: NavbarCarouselService,
     private authSer: AuthService,
@@ -35,13 +36,16 @@ export class NavComponent implements OnInit {
       this.navLink = res
     })
 
-
-
     const userInfo = this.authSer.getCurrentUser()
-
     const userid = userInfo.uid;
 
+ this.firestore.collection('users').doc(userid).get().subscribe((doc: any) => {
+      this.userRole = doc.data()?.role || '';
+      console.log(this.userRole);
+
+ });
     this.firestore.collection('cart').doc(userid).get().subscribe((doc: any) => {
+      
       if (doc.exists) {
         this.cartItems = doc.data().items || [];
         this.cartlength = this.cartItems.length;

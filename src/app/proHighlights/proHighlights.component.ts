@@ -9,10 +9,10 @@ import { ProductService } from '../Services/product.service';
 })
 export class ProHighlightsComponent implements OnInit {
 
-  product : any
+  product: any
   constructor(
     private route: ActivatedRoute,
-    private proSer : ProductService
+    private proSer: ProductService
 
   ) {
 
@@ -20,9 +20,10 @@ export class ProHighlightsComponent implements OnInit {
 
   ngOnInit(): void {
     const productId = this.route.snapshot.paramMap.get('proid');
+    console.log(productId);
 
-   
-    this.proSer.getCatgegrProId(productId).subscribe((res)=>{
+
+    this.proSer.getCatgegrProId(productId).subscribe((res) => {
       this.product = res
     })
   }

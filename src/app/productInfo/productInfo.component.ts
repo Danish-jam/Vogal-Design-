@@ -7,25 +7,28 @@ import { ProductService } from '../Services/product.service';
   templateUrl: './ProductInfo.component.html',
   styleUrls: ['./ProductInfo.component.css']
 })
-export class ProductInfoComponent implements OnInit{
+export class ProductInfoComponent implements OnInit {
 
-product : any
+  product: any
 
-constructor(
-  private route : ActivatedRoute,
-  private proSer : ProductService
-){
+  constructor(
+    private route: ActivatedRoute,
+    private proSer: ProductService
+  ) {
 
-}
+  }
 
-ngOnInit(): void {
- const id = this.route.snapshot.paramMap.get("id")
+  ngOnInit(): void {
+    const id = this.route.snapshot.paramMap.get("id")
+    console.log(id);
 
- this.proSer.getProductId(Number(id)).subscribe((res)=>{
-   this.product = res
- })
- 
-}
+    if (id) {
+      this.proSer.getProductId(id).subscribe((res) => {
+        this.product = res
+      })
+    }
+
+  }
 
 
 

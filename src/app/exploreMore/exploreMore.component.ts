@@ -18,6 +18,12 @@ export class ExploreMoreComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.proSer.getAllProductCategories().subscribe((res) => {
+      console.log(res);
+      this.topCategory = res.slice(0, 5)
+      console.log(this.topCategory);
+      this.cdr.detectChanges();
+    })
   }
 
 

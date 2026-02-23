@@ -33,6 +33,7 @@ import { CardComponent } from './card/card.component';
 import { TrendCardComponent } from './trendCard/trendCard.component';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { environment } from 'src/enviroment/enviroment';
 @NgModule({
   declarations: [
@@ -72,8 +73,8 @@ import { environment } from 'src/enviroment/enviroment';
     AdminModule,
     UserModule,
     AngularFireAuthModule,
-    AngularFireModule,
-    AngularFireModule.initializeApp(environment.firebase)
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule
   ],
   providers: [],
   bootstrap: [AppComponent]

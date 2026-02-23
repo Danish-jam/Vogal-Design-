@@ -2,7 +2,40 @@
   "cart": [
     {
       "id": "f83a",
-      "items": []
+      "items": [
+        {
+          "img": "https://vogal-demo.myshopify.com/cdn/shop/products/12_06769c95-1359-470e-8c2b-fc19c77ff7a2.jpg?v=1675914818",
+          "name": " Everyday Tube Top Ribbed",
+          "price": 633,
+          "id": "HiOEWTJI7S8vVdw7gj7D",
+          "category": "Tops Tees",
+          "qty": 1
+        },
+        {
+          "img": "https://vogal-demo.myshopify.com/cdn/shop/products/5_2ebafd66-b0ae-4ffa-b70f-6f3dc526861c.jpg?v=1676004679",
+          "name": " Long Maxi Dress",
+          "price": 232,
+          "id": "LYEv3cvcqCrH0LHienR0",
+          "category": "Luxe Choice",
+          "qty": 1
+        },
+        {
+          "img": "https://vogal-demo.myshopify.com/cdn/shop/products/6_2691ea38-20e2-4ed4-9b1d-2538b04afbe8.jpg?v=1675923172",
+          "name": "Polo Solid Short Jumpsuits",
+          "price": 1232,
+          "id": "q0RH4LDy0Y7cWYsGbTCY",
+          "category": "Exclusive Picks",
+          "qty": 1
+        },
+        {
+          "img": "https://vogal-demo.myshopify.com/cdn/shop/products/4_c32ebe14-5f94-4532-8cd8-7c9b79abf014.jpg?v=1675917784",
+          "name": " Solid Cargo Pant",
+          "price": 124,
+          "id": "BjOSTzOztBBDcG0Ij92d",
+          "category": "New Arrivals",
+          "qty": 1
+        }
+      ]
     }
   ],
   "users": [],
@@ -10,27 +43,38 @@
     {
       "id": "41",
       "name": "Home",
-      "link": "home"
+      "link": "home",
+      "role": "all"
     },
     {
       "id": "11",
       "name": "Categories",
-      "link": "categories"
+      "link": "categories",
+      "role": "all"
     },
     {
       "id": "89",
       "name": "AddProduct",
-      "link": "/admin/addpro"
+      "link": "/admin/addpro",
+      "role": "admin"
     },
     {
       "id": "67",
       "name": "AllUser",
-      "link": "/admin/Users"
+      "link": "/admin/Users",
+      "role": "admin"
     },
     {
       "id": "60",
       "name": "AllProducts",
-      "link": "allpro"
+      "link": "allpro",
+      "role": "all"
+    },
+    {
+      "id": "34",
+      "name": "Contact Us",
+      "link": "contact",
+      "role": "all"
     }
   ],
   "carouselData": [
