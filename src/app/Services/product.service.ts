@@ -15,76 +15,35 @@ export class ProductService {
   constructor(private http: HttpClient, private authSer: AuthService, private afs: AngularFirestore) { }
 
   private apiUrl: string = 'http://localhost:3200/'
+  // ---------------- Products ----------------
 
   searchPro(name: string): Observable<Product[]> {
-    return this.afs.collection<Product>('products', ref => ref.where('name', '>=', name).where('name', '<=', name + '\uf8ff')).valueChanges();
-  }
-
-
-  // 🔹 Get Top Categories
-  getTopCategories(): Observable<Category[]> {
-    return this.afs.collection<Category>(
-      'categories',
-      ref => ref.where('topCategoryPro', '==', true)
+    return this.afs.collection<Product>(
+      'products',
+      ref => ref.where('name', '>=', name).where('name', '<=', name + '\uf8ff')
     ).valueChanges({ idField: 'id' });
   }
 
-  // 🔹 Get Home Page Categories
-  getHomePageCategories(): Observable<Category[]> {
-    return this.afs.collection<Category>(
-      'categories',
-      ref => ref.where('showOnHomePage', '==', true)
-    ).valueChanges({ idField: 'id' });
-  }
-
-  // 🔹 Add Category
-  postCategrPro(newPro: Category): Observable<any> {
-    const { id, ...data } = newPro;
-    return from(this.afs.collection('categories').add(data));
-  }
-
-  // 🔹 Delete Category
-  deleteCategrProFromService(proId: string): Observable<any> {
-    return from(this.afs.collection('categories').doc(proId).delete());
-  }
-
-  // 🔹 Get Category By ID
-  getCatgegrProId(id: string | null): Observable<Category | undefined> {
-    return this.afs.collection('categories')
-      .doc<Category>(id!)
-      .valueChanges({ idField: 'id' });
-  }
-
-  // // 🔹 Update Category
-  // updateCategrPro(id: string, updatePro: Category): Observable<any> {
-  //   const { id: _, ...data } = updatePro;
-  //   return from(this.afs.collection('categories').doc(id).update(data));
-  // }
-
-  // 🔹 Get All Categories
-  getCategories(): Observable<Category[]> {
-    return this.afs.collection<Category>('categories')
-      .valueChanges({ idField: 'id' });
-  }
-
-
-
-
-
-  updateCart(cartId: string, updatedCart: any): Observable<any> {
-    const { id, ...data } = updatedCart;
-    return from(this.afs.collection('cart').doc(cartId).update(data));
-  }
   getProducts(): Observable<Product[]> {
     return this.afs.collection<Product>('products').valueChanges({ idField: 'id' });
   }
 
   getHomePagePro(): Observable<Product[]> {
-    return this.afs.collection<Product>('products', ref => ref.where('showOnHomePage', '==', 'true')).valueChanges({ idField: 'id' });
+    return this.afs.collection<Product>(
+      'products',
+      ref => ref.where('showOnHomePage', '==', 'true')
+    ).valueChanges({ idField: 'id' });
   }
-  getAllProductCategories(): Observable<any[]> {
-    return this.afs.collection('categories')
-      .valueChanges({ idField: 'id' });
+
+  getProductId(id: string): Observable<Product | undefined> {
+    return this.afs.collection<Product>('products').doc<Product>(id).valueChanges();
+  }
+
+  getProductByName(name: string): Observable<Product[]> {
+    return this.afs.collection<Product>(
+      'products',
+      ref => ref.where('name', '>=', name).where('name', '<=', name + '\uf8ff')
+    ).valueChanges();
   }
 
   postProduct(newPro: Product): Observable<any> {
@@ -92,196 +51,92 @@ export class ProductService {
     return from(this.afs.collection('products').add(data));
   }
 
+  updateProduct(id: string, updatePro: Product): Observable<any> {
+    return from(this.afs.collection('products').doc(id).update(updatePro));
+  }
+
   deleteProduct(proId: string): Observable<any> {
     return from(this.afs.collection('products').doc(proId).delete());
   }
 
-  getProductId(id: string): Observable<Product | undefined> {
-    return this.afs.collection('products').doc<Product>(id).valueChanges();
-  }
-
-  getProductByName(name: string): Observable<Product[]> {
-    return this.afs.collection<Product>('products', ref => ref.where('name', '>=', name).where('name', '<=', name + '\uf8ff')).valueChanges();
-  }
-
-  updateProduct(Id: string, updatePro: Product): Observable<any> {
-    return from(this.afs.collection('products').doc(Id).update(updatePro));
-  }
-
   getQuestionsByCategory(category: string): Observable<Product[]> {
-    return this.afs.collection<Product>('products', ref => ref.where('category', '==', category)).snapshotChanges().pipe(
+    return this.afs.collection<Product>(
+      'products',
+      ref => ref.where('category', '==', category)
+    ).snapshotChanges().pipe(
       map(actions => actions.map(a => ({ ...a.payload.doc.data(), id: a.payload.doc.id })))
     );
   }
 
+  // ---------------- Categories ----------------
 
-  //CArt Products
-
-  PostCartPro(newProduct: any): Observable<Cart[]> {
-    return this.http.post<Cart[]>(`${this.apiUrl}cart`, newProduct)
-  }
-  // Get cart by userId
-  getCartByUserId(userId: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}cart?userId=${userId}`);
-  }
-  CartProducts(): Observable<Cart[]> {
-    return this.http.get<Cart[]>(this.apiUrl + 'cart')
+  getTopCategories(): Observable<Category[]> {
+    return this.afs.collection<Category>(
+      'categories',
+      ref => ref.where('topCategoryPro', '==', true)
+    ).valueChanges({ idField: 'id' });
   }
 
-  getCartProId(id: number): Observable<Cart> {
-    return this.http.get<Cart>(`${this.apiUrl}cart/${id}`)
+  getHomePageCategories(): Observable<Category[]> {
+    return this.afs.collection<Category>(
+      'categories',
+      ref => ref.where('showOnHomePage', '==', true)
+    ).valueChanges({ idField: 'id' });
+  }
+  getAllProductCategories(): Observable<any[]> {
+    return this.afs.collection('categories').valueChanges({ idField: 'id' });
   }
 
-  deleteProFromCart(proId: string): Observable<any> {
-    return from(this.afs.collection('cart').doc(proId).delete());
+  getCategories(): Observable<Category[]> {
+    return this.afs.collection<Category>('categories')
+      .valueChanges({ idField: 'id' });
   }
 
-  deleteCart(cartId: string): Observable<any> {
-    return from(this.afs.collection('cart').doc(cartId).delete());
+  getCatgegrProId(id: string | null): Observable<Category | undefined> {
+    return this.afs.collection('categories')
+      .doc<Category>(id!)
+      .valueChanges({ idField: 'id' });
   }
 
+  postCategrPro(newPro: Category): Observable<any> {
+    const { id, ...data } = newPro;
+    return from(this.afs.collection('categories').add(data));
+  }
 
+  deleteCategrProFromService(proId: string): Observable<any> {
+    return from(this.afs.collection('categories').doc(proId).delete());
+  }
 
-  // Discover-More-Catgr
+  // ---------------- Discover / More Categories ----------------
 
   getDiscoverPro(): Observable<Category[]> {
-    return this.http.get<Category[]>(this.apiUrl + 'discoverPro')
+    return this.afs.collection<Category>('discoverPro').valueChanges({ idField: 'id' });
   }
 
-  postDiscoverPro(newPro: Category): Observable<Category[]> {
-    return this.http.post<Category[]>(`${this.apiUrl}discoverPro`, newPro)
+  postDiscoverPro(newPro: Category): Observable<any> {
+    const { id, ...data } = newPro;
+    return from(this.afs.collection('discoverPro').add(data));
   }
 
-  deleteDiscoverProFromService(proId: number): Observable<Category[]> {
-    return this.http.delete<Category[]>(`${this.apiUrl}discoverPro/${proId}`)
+  deleteDiscoverProFromService(proId: string): Observable<any> {
+    return from(this.afs.collection('discoverPro').doc(proId).delete());
   }
 
-  getDiscoverProId(id: number): Observable<Category> {
-    return this.http.get<Category>(`${this.apiUrl}discoverPro/${id}`)
+  getDiscoverProId(id: string): Observable<Category | undefined> {
+    return this.afs.collection<Category>('discoverPro').doc(id).valueChanges();
   }
 
-  updateDiscoverPro(Id: number, updatePro: Category) {
-    return this.http.put<Category>(`${this.apiUrl}discoverPro/${Id}`, updatePro);
+  updateDiscoverPro(id: string, updatePro: Category): Observable<any> {
+    const { id: _id, ...data } = updatePro;
+    return from(this.afs.collection('discoverPro').doc(id).update(data));
   }
 
   getQuestionsByShowHomePage(showHomePage: boolean): Observable<Category[]> {
-    return this.http.get<Category[]>(`${this.apiUrl}discoverPro?showHomePage=${showHomePage}`);
+    return this.afs.collection<Category>(
+      'discoverPro',
+      ref => ref.where('showOnHomePage', '==', showHomePage)
+    ).valueChanges({ idField: 'id' });
   }
-
-
-
-  addToCart(pro: any) {
-    pro.qty = pro.qty ?? 1
-
-    const userInfo = JSON.parse(localStorage.getItem("user") || '[]')
-    const userid = userInfo.id
-
-    let newPro = {
-      img: pro.img,
-      name: pro.name,
-      price: pro.price,
-      id: pro.id,
-      category: pro.category,
-      qty: pro.qty
-    }
-
-    console.log(userid);
-
-    let cartPro: any
-
-    this.getCartByUserId(userid).subscribe((res) => {
-
-      cartPro = res.find((val: { userId: any; }) => val.userId == userid)
-      console.log(res);
-      if (cartPro) {
-        const cartPro = res.find((val: { userId: number }) => val.userId == userInfo.id)
-        let findPro = cartPro.items.find((pro: { id: any; }) => pro.id == newPro.id)
-        if (findPro) {
-          console.log(findPro);
-          findPro.qty++
-          this.updateCart(cartPro.id, cartPro).subscribe((res) => {
-            console.log(res);
-            // this.calculateTotal(cartPro)
-          })
-        } else {
-          cartPro.items.push(newPro)
-          this.updateCart(cartPro.id, cartPro).subscribe((res) => {
-            res
-            // this.calculateTotal(cartPro)
-          })
-        }
-      } else {
-        const userCart = {
-          userId: userid,
-          items: [newPro]
-        }
-        this.PostCartPro(userCart).subscribe((res) => {
-          res
-        })
-      }
-
-    })
-  }
-
-
-  removePro(item: any) {
-    let userInfo = this.authSer.getCurrentUser()
-    this.getCartByUserId(userInfo.id).subscribe((res) => {
-      const cartPro = res.find((val: { userId: number }) => val.userId == userInfo.id)
-      console.log(cartPro);
-
-      let findPro = cartPro.items.filter((pro: any) => pro.id != item.id)
-      const updatedCart = {
-        ...cartPro,
-        items: findPro
-      };
-      console.log(updatedCart);
-      this.updateCart(cartPro.id, updatedCart).subscribe((res) => {
-        console.log(res);
-        window.location.reload();
-      })
-    })
-  }
-
-  increaseQty(pro: any) {
-    let userInfo = this.authSer.getCurrentUser()
-    this.getCartByUserId(userInfo.id).subscribe((res) => {
-      const cartPro = res.find((val: { userId: number }) => val.userId == userInfo.id)
-      let findPro = cartPro.items.find((val: { id: any; }) => val.id == pro.id)
-      console.log(findPro);
-      if (findPro) {
-        findPro.qty++
-        this.updateCart(cartPro.id, cartPro).subscribe((res) => {
-          res
-          window.location.reload();
-          // this.calculateTotal(cartPro)
-        })
-      }
-    })
-  }
-
-  decreaseQty(pro: any) {
-    let userInfo = this.authSer.getCurrentUser()
-    this.getCartByUserId(userInfo.id).subscribe((res) => {
-      const cartPro = res.find((val: { userId: number }) => val.userId == userInfo.id)
-      let findPro = cartPro.items.find((val: { id: any; }) => val.id == pro.id)
-      if (findPro.qty == 1) {
-        this.removePro(findPro)
-        window.location.reload();
-      }
-      if (findPro) {
-        findPro.qty--
-        this.updateCart(cartPro.id, cartPro).subscribe((res) => {
-          res
-          window.location.reload();
-          // this.calculateTotal(cartPro)
-        })
-      }
-    })
-  }
-
-
-
 }
 
 // searchPro(name: string): Observable<Category[]> {

@@ -33,8 +33,8 @@ const routes: Routes = [
     path: "cart",
     component: CartComponent
   }, {
-    path: "discoverCard/:proid",
-    component: ProHighlightsComponent
+    path: "discoverCard/catgr",
+    component: CategoriesComponent
   },
   {
     path: "home/detaile/:id",

@@ -17,8 +17,8 @@ export class AuthService {
     private router: Router
   ) { }
 
-// json-server --watch db.json --port 3200
-  
+  // json-server --watch db.json --port 3200
+
   private api = 'http://localhost:3200/users';
   private apiUrl: string = 'http://localhost:3200/'
 
@@ -67,20 +67,15 @@ export class AuthService {
         if (userId) {
 
           let role = 'user';
-
-          if (email === 'danish@gmail.com') {
-            role = 'admin';
-          }
-
           await this.firestore.collection('users').doc(userId).set({
             uid: userId,
             fname: fname,
             lname: lname,
             email: email,
-            role: role   
+            role: role
           });
-
-          window.location.href = `/user/login?id=${userId}`;
+          localStorage.setItem('user', JSON.stringify(res.user));
+          window.location.href = '/home';
         }
       });
   }
@@ -102,7 +97,7 @@ export class AuthService {
   //   return this.http.post(this.api, user);
   // }
 
-  getUsersFormFirebase() {
+  getUsers() {
     return this.firestore.collection('users').valueChanges({ idField: 'id' });
   }
 
@@ -124,7 +119,15 @@ export class AuthService {
     return JSON.parse(localStorage.getItem("user") || '[]')
   }
 
-
+  checkUserRole(userid  : any): Observable<string> {
+    return this.firestore.collection('users').doc(userid).get().pipe(
+      map((doc: any) => {
+        const userRole = doc.data()?.role || '';
+        console.log(userRole);
+        return userRole;
+      })
+    );
+  }
 
 
 

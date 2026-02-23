@@ -48,7 +48,7 @@
 
     <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
 
-      <form [formGroup]="linksform" (ngSubmit)="onSubmit()"
+      <form [formGroup]="linksForm" (ngSubmit)="submitNavbar()"
         class="form-container mx-auto mt-3 mb-5 p-4 shadow rounded-4">
 
         <h2 class="mb-3 text-center fw-bold">Submit Your NavLink</h2>
@@ -122,10 +122,10 @@
                 </td>
                 <td>
                   <div class="action-buttons">
-                    <button class="btn-action edit" (click)="editLink(item)" title="Edit">
+                    <button class="btn-action edit" (click)="editNavbar(item)" title="Edit">
                       <i class="bi bi-pencil"></i>
                     </button>
-                    <button class="btn-action delete" (click)="deleteLink(item.id)" title="Delete">
+                    <button class="btn-action delete" (click)="deleteNavbar(item.id)" title="Delete">
                       <i class="bi bi-trash"></i>
                     </button>
                   </div>
@@ -148,7 +148,7 @@
             <h4>Add New Slide</h4>
           </div>
           
-          <form [formGroup]="carouselForm" (ngSubmit)="onSubmitCarouslData()" class="carousel-mini-form">
+          <form [formGroup]="carouselForm" (ngSubmit)="submitCarousel()" class="carousel-mini-form">
             
             <div class="form-field-mini">
               <label>Image URL</label>
@@ -227,7 +227,7 @@
                     <button class="btn-mini edit" (click)="editCarousel(val)" title="Edit">
                       <i class="bi bi-pencil"></i>
                     </button>
-                    <button class="btn-mini remove" (click)="removeCarouselData(val.id)" title="Delete">
+                    <button class="btn-mini remove" (click)="deleteCarousel(val.id)" title="Delete">
                       <i class="bi bi-trash"></i>
                     </button>
                   </td>

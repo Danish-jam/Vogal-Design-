@@ -7,5 +7,5 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./card.component.css']
 })
 export class CardComponent {
- @Input() product : any;
+ @Input() category : any;
 }

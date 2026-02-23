@@ -10,7 +10,7 @@ const routes: Routes = [
   { path: "addpro", component: AddproComponent },
   { path: "product-update/:proid", component: AddproComponent },
   {
-    path: 'admin/Users/login/:id',
+    path: 'user/login',
     component: LoginComponent
   },
   { path: "Users", component: UserAccountsComponent }

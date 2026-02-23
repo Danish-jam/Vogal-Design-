@@ -21,7 +21,7 @@ export class UserAccountsComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.authSer.getUsersFormFirebase().subscribe((res) => {
+    this.authSer.getUsers().subscribe((res) => {
       this.users = res
       console.log(res);
 

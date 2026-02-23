@@ -17,10 +17,6 @@
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.cart-item:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.12);
-}
 
 /* --- Image --- */
 .cart-item__image img {

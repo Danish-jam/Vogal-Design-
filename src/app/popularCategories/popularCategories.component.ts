@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ProductService } from '../Services/product.service';
+import { CartService } from '../Services/cart.service';
 
 
 @Component({
@@ -12,7 +13,7 @@ export class PopularCategoriesComponent implements OnInit {
 
   @Input() topCatgrPro: any
 
-  constructor(private proSer: ProductService) {
+  constructor(private proSer: ProductService ,private cartSer: CartService) {
 
   }
 
@@ -21,6 +22,7 @@ export class PopularCategoriesComponent implements OnInit {
     this.proSer.getAllProductCategories().subscribe((res) => {
       console.log(res);
       this.topCatgrPro = res.slice(0, 5)
+      
     })
 
   }

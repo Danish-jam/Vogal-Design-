@@ -3,6 +3,7 @@ import { NavbarCarouselService } from '../Services/NavbarCarouselService.service
 import { AuthService } from '../Services/auth.service';
 import { ProductService } from '../Services/product.service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { CartService } from '../Services/cart.service';
 
 @Component({
   selector: 'app-nav',
@@ -25,7 +26,7 @@ export class NavComponent implements OnInit {
     private navCarService: NavbarCarouselService,
     private authSer: AuthService,
     private proSer: ProductService,
-    private firestore: AngularFirestore
+    private cartSer: CartService
   ) {
 
   }
@@ -39,19 +40,14 @@ export class NavComponent implements OnInit {
     const userInfo = this.authSer.getCurrentUser()
     const userid = userInfo.uid;
 
- this.firestore.collection('users').doc(userid).get().subscribe((doc: any) => {
-      this.userRole = doc.data()?.role || '';
-      console.log(this.userRole);
 
- });
-    this.firestore.collection('cart').doc(userid).get().subscribe((doc: any) => {
-      
-      if (doc.exists) {
-        this.cartItems = doc.data().items || [];
-        this.cartlength = this.cartItems.length;
-      } else {
-        this.cartlength = 0;
-      }
+    this.authSer.checkUserRole(userid).subscribe((role) => {
+      this.userRole = role;
+    });
+
+   this.cartSer.getUserCart(userid).subscribe((cartData) => {
+      this.cartItems = cartData.items;
+      this.cartlength = cartData.length;
     });
 
     //   if (userInfo.id) {

@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { ProductService } from '../Services/product.service';
 import { CommonModule } from '@angular/common';
 import { ProductCardComponent } from "../product-card/product-card.component";
+import { CartService } from '../Services/cart.service';
 
 
 @Component({
@@ -16,7 +17,8 @@ export class SellerProComponent implements OnInit {
   allSellerPro !: any[]
   allPro: any
   constructor(
-    private proSer: ProductService
+    private proSer: ProductService,
+     private cartSer: CartService
   ) {
 
   }
@@ -33,7 +35,7 @@ export class SellerProComponent implements OnInit {
 
 
   addtoCart(item: any) {
-    this.proSer.addToCart(item)
+    this.cartSer.addToCart(item)
   }
 
 
