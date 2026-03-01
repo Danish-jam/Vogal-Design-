@@ -4,6 +4,8 @@ import { AuthService } from '../Services/auth.service';
 import { ProductService } from '../Services/product.service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { CartService } from '../Services/cart.service';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-nav',
@@ -18,7 +20,7 @@ export class NavComponent implements OnInit {
   cart!: any
   cartlength: number = 0
   searchitem: string = ''
-  allProducts: any
+  allProducts: any[] = [];
   searchname: any
   cartItems: any[] = [];
   userRole: string = '';
@@ -26,7 +28,8 @@ export class NavComponent implements OnInit {
     private navCarService: NavbarCarouselService,
     private authSer: AuthService,
     private proSer: ProductService,
-    private cartSer: CartService
+    private cartSer: CartService,
+    private firestore: AngularFirestore
   ) {
 
   }
@@ -45,7 +48,7 @@ export class NavComponent implements OnInit {
       this.userRole = role;
     });
 
-   this.cartSer.getUserCart(userid).subscribe((cartData) => {
+    this.cartSer.getUserCart(userid).subscribe((cartData) => {
       this.cartItems = cartData.items;
       this.cartlength = cartData.length;
     });
@@ -85,17 +88,32 @@ export class NavComponent implements OnInit {
     //   }
   }
 
+
   onSearchChange(value: string): void {
-    this.spinner = true;
-    if (value.trim() == '') {
+
+    if (!value.trim()) {
       this.allProducts = [];
+      this.spinner = true;
       return;
+
     }
 
-    this.proSer.searchPro(value.trim()).subscribe((res) => {
-      this.allProducts = res;
-      this.spinner = false;
-    });
+    this.firestore.collection('products')
+      .valueChanges()
+      .subscribe((products: any[]) => {
+
+        this.allProducts = products.filter(p =>
+          p.name?.toLowerCase().includes(value.toLowerCase())
+        );
+         this.spinner = false;
+      });
+
   }
+
+  //   this.proSer.searchPro(value.trim()).subscribe((res) => {
+  //   this.allProducts = res;
+  //   this.spinner = false;
+  // });
+  // }
 
 }

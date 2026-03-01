@@ -18,15 +18,17 @@ export class CartComponent implements OnInit {
   cartItems: any[] = [];
   cartlength: any;
   spinner: boolean = false
+  subtotal: number = 0;
+  shipping: number = 5; // fixed shipping
 
   ngOnInit(): void {
     const userInfo = JSON.parse(localStorage.getItem('user') || '{}');
     const userid = userInfo.uid;
 
     this.cartSer.getUserCart(userid).subscribe(res => {
-      this.cartItems = res.items; 
+      this.cartItems = res.items;
       this.cartlength = res.length;
-      console.log(this.cartItems);
+      this.calculateTotal();
     });
 
     setTimeout(() => {
@@ -64,9 +66,17 @@ export class CartComponent implements OnInit {
   }
 
   removeItem(item: any) {
-    // this.proSer.removePro(item)
-    this.cartSer.deleteProFromCart(item.id)
+    this.cartSer.deleteProCart(item)
   }
 
 
+  calculateTotal() {
+    this.subtotal = this.cartItems.reduce((total: number, item: any) => {
+      return total + (item.price * item.qty);
+    }, 0);
+  }
+
+  checkout(){
+
+  }
 }

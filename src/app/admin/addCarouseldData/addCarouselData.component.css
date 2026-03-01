@@ -640,6 +640,47 @@
   transform: scale(1.1);
 }
 
+.buttons-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.button-pair {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.btn-input {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.add-btn-wrapper {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.add-icon {
+  font-size: 26px;
+  color: #28a745;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.add-icon:hover {
+  transform: scale(1.2);
+}
+
+.remove-icon {
+  color: red;
+  cursor: pointer;
+  font-size: 20px;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1200px) {
   .carousel-section {

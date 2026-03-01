@@ -39,6 +39,12 @@ export class ProductService {
     return this.afs.collection<Product>('products').doc<Product>(id).valueChanges();
   }
 
+  getProductById(id: string): Observable<Product | undefined> {
+    return this.afs
+      .doc<Product>(`products/${id}`)
+      .valueChanges({ idField: 'id' });
+  }
+
   getProductByName(name: string): Observable<Product[]> {
     return this.afs.collection<Product>(
       'products',

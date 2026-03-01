@@ -1,107 +1,44 @@
-.product-card {
-  display: flex;
-  flex-wrap: wrap;
-  background-color: #fff;
-  border-radius: 16px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-  max-width: 900px;
-  margin: 30px auto;
-  font-family: 'Segoe UI', sans-serif;
-  transition: all 0.3s ease;
-}
-
-.product-image-container {
-  flex: 1 1 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.product-image {
-  max-width: 100%;
-  height: auto;
-  border-radius: 0;
-}
-
-.product-details {
-  flex: 1 1 50%;
-  padding: 20px 30px;
-  background: linear-gradient(225deg, #8f9fb1, #6fb1f3) !important;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.product-title {
-  font-size: 1.8rem;
-  font-weight: 700;
-  margin: 0;
-  color: #2e2e2e;
-}
-
-.product-subtitle {
-  font-size: 0.9rem;
-  color: #999;
-  margin-bottom: 20px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.product-description {
-  font-size: 0.95rem;
-  line-height: 1.6;
-  color: #444;
-  margin-bottom: 30px;
-}
-
-.product-price-buy {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.product-price {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #333;
-}
-
-.buy-now {
- background-color: rgb(46, 46, 46);
-  color: #fff;
-  font-weight: bold;
-  border: none;
-  padding: 10px 22px;
-  border-radius: 25px;
+/* Responsive Product Page Styles */
+.thumb-img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
   cursor: pointer;
-  font-size: 0.95rem;
-  transition: background-color 0.3s ease;
+  border: 2px solid transparent;
+  transition: border 0.2s;
 }
 
-.buy-now:hover {
-  background-color: rgb(223, 223, 223);
-  color: black;
+.thumb-img:hover {
+  border-color: #0d6efd;
+}
+.color-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  cursor: pointer;
+}
+.color-btn.active {
+  border-color: #0d6efd;
+}
+.main-img {
+  max-height: 400px !important;
+  object-fit: contain;
 }
 
+.thumb-img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border 0.2s;
+}
+
+.thumb-img:hover, .thumb-img.active {
+  border: 2px solid #0d6efd;
+  border-radius: 5px;
+}
 @media (max-width: 768px) {
-  .product-card {
-    flex-direction: column;
-  }
-
-  .product-image-container,
-  .product-details {
-    flex: 1 1 100%;
-  }
-
-  .product-details {
-    padding: 20px;
-    text-align: center;
-  }
-
-  .product-price-buy {
-    justify-content: center;
-    flex-direction: column;
-    gap: 10px;
-  }
+  .thumb-img { width: 50px; height: 50px; }
 }

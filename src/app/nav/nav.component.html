@@ -96,7 +96,7 @@
                         <span class="visually-hidden">Loading...</span>
                       </div>
                     </div>
-                    <h3 class="text-center mt-4 mb-3 text-white" *ngIf="searchname == 0">No Found Match !</h3>
+                    <h3 class="text-center mt-4 mb-3 text-white" *ngIf="allProducts.length == 0 && !spinner">No Found Match !</h3>
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4">
                       <div class="col" *ngFor="let pro of allProducts | searchPro : searchitem">
                         <div class="custom-card card h-100 border-0 shadow-sm rounded-4 overflow-hidden">

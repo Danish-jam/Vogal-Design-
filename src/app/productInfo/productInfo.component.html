@@ -1,14 +1,67 @@
-<div class="product-card mt-5">
-  <div class="product-image-container">
-    <img src="{{product?.img}}" alt="Product Image" class="product-image">
-  </div>
-  <div class="product-details">
-    <h2 class="product-title">{{product?.name || 'Harvest Vase'}}</h2>
-    <p class="product-subtitle text-white ">by Studio and Friends</p>
-    <p class="product-description">
-     'Harvest Vases are a reinterpretation of peeled fruits and vegetables as functional objects. The surfaces appear to be sliced and pulled aside, allowing room for growth.
-    </p>
-      <span class="product-price text-danger">{{product?.price}}$</span>
-      <button class="buy-now w-100 mt-3">Buy Now</button>
+<div class="container my-5">
+  <div class="row g-4">
+    <!-- Product Images -->
+    <div class="col-md-6">
+      <div class="product-main-image mb-3 text-center">
+        <img [src]="selectedImage || product?.img" alt="{{product?.name}}" class="img-fluid rounded main-img">
+      </div>
+
+      <div class="d-flex gap-2 justify-content-start flex-wrap">
+        <img *ngFor="let thumb of product?.thumbnails" [src]="thumb" alt="Thumbnail" class="img-thumbnail thumb-img"
+          (click)="selectImage(thumb)">
+      </div>
+    </div>
+
+    <!-- Product Details -->
+    <div class="col-md-6">
+      <h2 class="fw-bold">{{product?.name || 'Harvest Vase'}}</h2>
+      <p class="text-muted mb-2">by Studio and Friends</p>
+
+      <!-- Rating -->
+      <div class="mb-3">
+        <span *ngFor="let star of [1,2,3,4,5]" class="text-warning">
+          <i class="bi" [ngClass]="star <= product?.rating ? 'bi-star-fill' : 'bi-star'"></i>
+        </span>
+        <span class="ms-2 text-muted">({{product?.reviews}} reviews)</span>
+      </div>
+
+      <!-- Price -->
+      <h3 class="text-danger mb-3">{{product?.price | currency}}</h3>
+
+      <!-- Color Options -->
+      <div class="mb-3">
+        <label class="form-label fw-bold">Color:</label>
+        <div class="d-flex gap-2 mt-1">
+          <button *ngFor="let color of product?.colors" class="color-btn" [ngStyle]="{'background-color': color}"
+            (click)="selectColor(color)"></button>
+        </div>
+      </div>
+
+      <!-- Size Options -->
+      <div class="mb-3">
+        <label class="form-label fw-bold">Size:</label>
+        <div class="d-flex gap-2 mt-1">
+          <button *ngFor="let size of product?.sizes" class="btn btn-outline-secondary"
+            [class.active]="selectedSize === size" (click)="selectedSize = size">{{size}}</button>
+        </div>
+      </div>
+
+      <!-- Quantity & Add to Cart -->
+      <div class="d-flex align-items-center gap-2 mb-3">
+        <button class="btn btn-outline-secondary" (click)="decreaseQty()">-</button>
+        <input type="number" class="form-control text-center" [(ngModel)]="quantity" min="1" style="width:60px">
+        <button class="btn btn-outline-secondary" (click)="increaseQty()">+</button>
+      </div>
+      <button class="btn btn-primary w-100" (click)="addToCart(product)">Add to Cart</button>
+
+      <!-- Description -->
+      <div class="mt-4">
+        <h5>Description</h5>
+        <p class="text-muted">`This Harvest Vase is a stunning hand-crafted piece, perfect for enhancing any room.
+          Made from high-quality ceramic, it combines modern elegance with rustic charm.
+          Ideal for flowers, dried arrangements, or as a decorative accent on shelves or tables.
+          Its versatile design complements both contemporary and traditional interiors.</p>
+      </div>
+    </div>
   </div>
 </div>

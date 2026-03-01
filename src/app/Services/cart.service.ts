@@ -45,9 +45,21 @@ export class CartService {
     return from(this.afs.collection('cart').doc(cartId).delete());
   }
 
-  // 🔹 Delete a product from cart
-  deleteProFromCart(proId: string): Observable<any> {
-    return from(this.afs.collection('cart').doc(proId).delete());
+  deleteProFromCart(userId: string, productId: string) {
+
+    const docRef = this.afs.collection('cart').doc(userId);
+
+    docRef.valueChanges().subscribe((data: any) => {
+
+      if (!data || !data.items) return;
+
+      const updatedItems = data.items.filter(
+        (item: any) => item.id !== productId
+      );
+
+      docRef.update({ items: updatedItems });
+
+    });
   }
 
   getUserCart(userId: string): Observable<{ items: any[]; length: number }> {
@@ -71,39 +83,84 @@ export class CartService {
 
 
   // ---------------- Cart Operations ----------------
-
   addToCart(pro: any) {
-    pro.qty = pro.qty ?? 1;
-    const userInfo = this.authSer.getCurrentUser();
-    const userid = userInfo.id;
 
-    const newPro = {
+    pro.qty = pro.qty ?? 1
+
+    const userInfo = this.authSer.getCurrentUser()
+    const userid = userInfo.uid
+
+    let newPro = {
       img: pro.img,
       name: pro.name,
       price: pro.price,
       id: pro.id,
       category: pro.category,
       qty: pro.qty
-    };
+    }
 
-    this.getCartByUserId(userid).subscribe(res => {
-      let cartPro = res.find((val: any) => val.userId == userid);
-      if (cartPro) {
-        const findPro = cartPro.items.find((p: any) => p.id == newPro.id);
+
+    this.afs.collection('cart').doc(userid).get().subscribe((res: any) => {
+      console.log(res);
+      if (res.exists) {
+        const cartPro = res.data()?.items ?? [];
+        const findPro = cartPro.find((pro: any) => pro.id == newPro.id);
         if (findPro) {
-          findPro.qty++;
+          findPro.qty++
+          this.afs.collection('cart').doc(userid).update({
+            items: cartPro
+          });
         } else {
-          cartPro.items.push(newPro);
+          cartPro.push(newPro)
+          this.afs.collection('cart').doc(userid).update({
+            items: cartPro
+          });
         }
-        this.updateCart(cartPro.id, cartPro).subscribe();
       } else {
-        const userCart = { userId: userid, items: [newPro] };
-        this.addNewCart(userCart).subscribe();
+        const userCart = {
+          userId: userid,
+          items: [newPro]
+        }
+        this.afs.collection('cart').doc(userid).set(userCart)
       }
-    });
+
+    })
+
   }
 
-  
+
+  // addToCart(pro: any) {
+  //   pro.qty = pro.qty ?? 1;
+  //   const userInfo = this.authSer.getCurrentUser();
+  //   const userid = userInfo.id;
+
+  //   const newPro = {
+  //     img: pro.img,
+  //     name: pro.name,
+  //     price: pro.price,
+  //     id: pro.id,
+  //     category: pro.category,
+  //     qty: pro.qty
+  //   };
+
+  //   this.getCartByUserId(userid).subscribe(res => {
+  //     let cartPro = res.find((val: any) => val.userId == userid);
+  //     if (cartPro) {
+  //       const findPro = cartPro.items.find((p: any) => p.id == newPro.id);
+  //       if (findPro) {
+  //         findPro.qty++;
+  //       } else {
+  //         cartPro.items.push(newPro);
+  //       }
+  //       this.updateCart(cartPro.id, cartPro).subscribe();
+  //     } else {
+  //       const userCart = { userId: userid, items: [newPro] };
+  //       this.addNewCart(userCart).subscribe();
+  //     }
+  //   });
+  // }
+
+
   increaseQty(item: Product) {
     const userInfo = this.authSer.getCurrentUser()
     const userid = userInfo.uid

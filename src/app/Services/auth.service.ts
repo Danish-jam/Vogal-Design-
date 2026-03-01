@@ -14,7 +14,6 @@ export class AuthService {
     private http: HttpClient,
     private fireauth: AngularFireAuth,
     private firestore: AngularFirestore,
-    private router: Router
   ) { }
 
   // json-server --watch db.json --port 3200

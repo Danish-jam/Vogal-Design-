@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ProductService } from '../Services/product.service';
 import { FirebaseProService } from '../Services/firebase-pro.service';
+import { CartService } from '../Services/cart.service';
 
 @Component({
   selector: 'app-product-card',
@@ -13,7 +14,7 @@ import { FirebaseProService } from '../Services/firebase-pro.service';
 export class ProductCardComponent implements OnInit {
   @Input() allProducts: any;
   showToast: boolean = false;
-  constructor(private proSer: ProductService, private firebaseSer: FirebaseProService) {
+  constructor(private proSer: ProductService, private cartSer: CartService) {
 
   }
  
@@ -25,7 +26,9 @@ ngOnInit(): void {
 
 
   addtoCart(pro: any) {
-    this.firebaseSer.addToProFirebaseCart(pro)
+    console.log(pro);
+    
+    this.cartSer.addToCart(pro)
     this.showToast = true;
 
     // 3. Hide toast after 3 seconds

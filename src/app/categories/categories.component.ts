@@ -11,26 +11,27 @@ import { FirebaseProService } from '../Services/firebase-pro.service';
 export class CategoriesComponent implements OnInit {
   selectedIndex: number = 0;
   categories: any
-  selectedCategory: any = "Exclusive Picks"
+  selectedCategory: any
   constructor(
     private proSer: ProductService,
     private route: ActivatedRoute,
-    private firebaseSer : FirebaseProService
+    private firebaseSer: FirebaseProService
   ) {
 
   }
   products: any
   routeCategory: any
   allProducts: any[] = []
-  showToast : boolean = false
+  showToast: boolean = false
   ngOnInit(): void {
     // this.proSer.getProducts().subscribe((res) => {
     //   this.allProducts = res;
     //   this.categories = [...Array.from(new Set(res.map(item => item.category)))];
-    //   this.route.paramMap.subscribe(params => {
-    //     this.selectedCategory = params.get('category');
-    //   });
+      this.route.paramMap.subscribe(params => {
+        this.selectedCategory = params.get('category');
+      });
     // });
+    
     this.proSer.getAllProductCategories().subscribe((res) => {
       this.categories = res
       console.log(res);
@@ -40,9 +41,9 @@ export class CategoriesComponent implements OnInit {
   }
 
 
-  getProByCategories(item: any) {
-    console.log(item);
-    this.proSer.getQuestionsByCategory(item).subscribe((res) => {
+  getProByCategories(catgrName: any) {
+    console.log(catgrName);
+    this.proSer.getQuestionsByCategory(catgrName).subscribe((res) => {
       this.products = res
       console.log(res);
     })
@@ -50,12 +51,12 @@ export class CategoriesComponent implements OnInit {
 
   addtoCart(pro: any) {
     this.firebaseSer.addToProFirebaseCart(pro)
-      this.showToast = true;
+    this.showToast = true;
 
-      // 3. Hide toast after 3 seconds
-      setTimeout(() => {
-        this.showToast = false;
-      }, 2000)
+    // 3. Hide toast after 3 seconds
+    setTimeout(() => {
+      this.showToast = false;
+    }, 2000)
   }
 
 }

@@ -7,18 +7,16 @@
 
     <ul class="nav nav-menu" id="pills-tab" role="tablist">
       <li class="nav-item">
-        <button class="nav-link nav-tab-btn active" id="pills-home-tab"
-          data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home"
-          aria-selected="true">
+        <button class="nav-link nav-tab-btn active" id="pills-home-tab" data-bs-toggle="pill"
+          data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">
           <span class="icon"><i class="bi bi-pencil-square"></i></span>
           <span class="">Edit Navbar</span>
           <span class="arrow"><i class="bi bi-chevron-right"></i></span>
         </button>
       </li>
       <li class="nav-item">
-        <button class="nav-link nav-tab-btn" id="pills-profile-tab"
-          data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile"
-          aria-selected="false">
+        <button class="nav-link nav-tab-btn" id="pills-profile-tab" data-bs-toggle="pill"
+          data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
           <span class="icon"><i class="bi bi-images"></i></span>
           <span class="">Edit Carousel</span>
           <span class="arrow"><i class="bi bi-chevron-right"></i></span>
@@ -90,7 +88,7 @@
           <h2><i class="bi bi-link-45deg"></i> Navigation Links</h2>
           <span class="badge-count">{{ navbarLinkData.length || 0 }} Links</span>
         </div>
-        
+
         <div class="navbar-table-wrapper">
           <table class="navbar-table">
             <thead>
@@ -140,16 +138,16 @@
 
     <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
       <div class="carousel-section">
-        
+
         <!-- Left - Form -->
         <div class="carousel-form-wrapper">
           <div class="form-header-mini">
             <i class="bi bi-plus-circle"></i>
             <h4>Add New Slide</h4>
           </div>
-          
+
           <form [formGroup]="carouselForm" (ngSubmit)="submitCarousel()" class="carousel-mini-form">
-            
+
             <div class="form-field-mini">
               <label>Image URL</label>
               <input type="text" id="bgImg" formControlName="bgImg" placeholder="https://...">
@@ -171,19 +169,24 @@
               <input type="text" id="text" formControlName="text" placeholder="Description text">
             </div>
 
-            <div class="buttons-grid">
-              <div class="button-pair">
-                <input type="text" id="bntText_1" formControlName="bntText_1" placeholder="Btn 1 Text" class="btn-input">
-                <input type="text" id="bntLink_1" formControlName="bntLink_1" placeholder="Link" class="btn-input">
+            <div class="buttons-grid" formArrayName="buttons">
+
+              <div class="button-pair" *ngFor="let btn of buttons.controls; let i = index" [formGroupName]="i">
+
+                <input type="text" formControlName="text" placeholder="Button Text" class="btn-input">
+
+                <input type="text" formControlName="link" placeholder="Button Link" class="btn-input">
+
+                <!-- Remove icon -->
+                <i class="bi bi-x-circle remove-icon" (click)="removeButton(i)" *ngIf="buttons.length > 1"></i>
+
               </div>
-              <div class="button-pair">
-                <input type="text" id="bntText_2" formControlName="bntText_2" placeholder="Btn 2 Text" class="btn-input">
-                <input type="text" id="bntLink_2" formControlName="bntLink_2" placeholder="Link" class="btn-input">
-              </div>
-              <div class="button-pair">
-                <input type="text" id="bntText_3" formControlName="bntText_3" placeholder="Btn 3 Text" class="btn-input">
-                <input type="text" id="bntLink_3" formControlName="bntLink_3" placeholder="Link" class="btn-input">
-              </div>
+
+            </div>
+
+            <!-- Add Button Icon -->
+            <div class="add-btn-wrapper">
+              <i class="bi bi-plus-circle-fill add-icon" (click)="addButton()"></i>
             </div>
 
             <button type="submit" class="btn-save-carousel">Save Slide</button>

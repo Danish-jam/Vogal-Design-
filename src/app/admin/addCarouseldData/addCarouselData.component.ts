@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CarouselData } from 'src/app/models/carousel.model';
 import { NavigationLink } from 'src/app/models/navlink.model';
 import { NavbarCarouselService } from 'src/app/Services/NavbarCarouselService.service';
@@ -41,25 +41,52 @@ export class AddCarouselDataComponent implements OnInit {
       heading_1: ['', Validators.required],
       heading_2: ['', Validators.required],
       text: ['', Validators.required],
-      bntText_1: [''], bntText_2: [''], bntText_3: [''],
-      bntLink_1: [''], bntLink_2: [''], bntLink_3: [''],
+      buttons: this.fb.array([])   // 👈 Dynamic buttons
     });
+
+    // Default ek button add kar do
+    this.addButton();
   }
 
+  get buttons(): FormArray {
+    return this.carouselForm.get('buttons') as FormArray;
+  }
+
+  addButton() {
+    const buttonGroup = this.fb.group({
+      text: [''],
+      link: ['']
+    });
+
+    this.buttons.push(buttonGroup);
+  }
+
+  removeButton(index: number) {
+    this.buttons.removeAt(index);
+  }
   // ---------------- Navbar ----------------
   loadNavbarLinks() { this.navCarService.getNavLinkGroup().subscribe(res => this.navbarLinkData = res); }
 
   submitNavbar(): void {
-    if (!this.linksForm.valid) return alert('Fill all fields!');
-    const data = this.linksForm.value;
-    const existing = this.navbarLinkData.find(l => l.id === data.id);
+    if (this.linksForm.invalid) {
+      return alert('Fill all fields!');
+    }
 
-    const obs = existing ? this.navCarService.updateNavLinkGroup(data.id, data) : this.navCarService.postNavLinkGroup(data);
-    obs.subscribe(() => {
-      alert(`Navbar link ${existing ? 'updated' : 'added'}!`);
-      this.linksForm.reset();
-      this.loadNavbarLinks();
-    }, () => alert('Operation failed!'));
+    const data = this.linksForm.value;
+    const isUpdate = this.navbarLinkData.some(link => link.id === data.id);
+
+    const request$ = isUpdate
+      ? this.navCarService.updateNavLinkGroup(data.id, data)
+      : this.navCarService.postNavLinkGroup(data);
+
+    request$.subscribe({
+      next: () => {
+        alert(`Navbar link ${isUpdate ? 'updated' : 'added'}!`);
+        this.linksForm.reset();
+        this.loadNavbarLinks();
+      },
+      error: () => alert('Operation failed!')
+    });
   }
 
   editNavbar(link: NavigationLink) { this.linksForm.patchValue(link); }
