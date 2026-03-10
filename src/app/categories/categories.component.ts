@@ -27,17 +27,23 @@ export class CategoriesComponent implements OnInit {
     // this.proSer.getProducts().subscribe((res) => {
     //   this.allProducts = res;
     //   this.categories = [...Array.from(new Set(res.map(item => item.category)))];
+    this.proSer.getAllProductCategories().subscribe((res) => {
+      this.categories = res;
+
       this.route.paramMap.subscribe(params => {
         this.selectedCategory = params.get('category');
-      });
-    // });
-    
-    this.proSer.getAllProductCategories().subscribe((res) => {
-      this.categories = res
-      console.log(res);
 
-    })
-    this.getProByCategories(this.selectedCategory);
+        if (this.selectedCategory) {
+          this.getProByCategories(this.selectedCategory);
+
+          // active index set
+          this.selectedIndex = this.categories.findIndex(
+            (c: any) => c.name === this.selectedCategory
+          );
+        }
+      });
+
+    });
   }
 
 

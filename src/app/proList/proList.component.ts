@@ -17,6 +17,7 @@ export class ProListComponent implements OnInit {
 
   }
   allProducts: Product[] = []
+  showToast: boolean = false
   ngOnInit(): void {
     this.proSer.getProducts().subscribe((res: Product[]) => {
       this.allProducts = res
@@ -25,5 +26,10 @@ export class ProListComponent implements OnInit {
 
   addtoCart(pro: any) {
     this.cartSer.addToCart(pro)
+    this.showToast = true;
+
+    setTimeout(() => {
+      this.showToast = false;
+    }, 2000);
   }
 }

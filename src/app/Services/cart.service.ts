@@ -88,40 +88,48 @@ export class CartService {
     pro.qty = pro.qty ?? 1
 
     const userInfo = this.authSer.getCurrentUser()
-    const userid = userInfo.uid
+    const userid = userInfo?.uid
 
     let newPro = {
-      img: pro.img,
-      name: pro.name,
-      price: pro.price,
-      id: pro.id,
-      category: pro.category,
-      qty: pro.qty
+      img: pro?.img || '',
+      name: pro?.name || '',
+      price: pro?.price || 0,
+      id: pro?.id || '',
+      category: pro?.category || '',
+      qty: pro?.qty || 1
     }
 
-
     this.afs.collection('cart').doc(userid).get().subscribe((res: any) => {
-      console.log(res);
+
       if (res.exists) {
-        const cartPro = res.data()?.items ?? [];
-        const findPro = cartPro.find((pro: any) => pro.id == newPro.id);
+        const cartPro = res.data()?.items ?? []
+        const findPro = cartPro.find((p: any) => p.id == newPro.id)
+
         if (findPro) {
           findPro.qty++
+
           this.afs.collection('cart').doc(userid).update({
             items: cartPro
-          });
+          })
+
         } else {
+
           cartPro.push(newPro)
+
           this.afs.collection('cart').doc(userid).update({
             items: cartPro
-          });
+          })
         }
+
       } else {
+
         const userCart = {
           userId: userid,
           items: [newPro]
         }
+
         this.afs.collection('cart').doc(userid).set(userCart)
+
       }
 
     })

@@ -24,6 +24,7 @@ export class NavComponent implements OnInit {
   searchname: any
   cartItems: any[] = [];
   userRole: string = '';
+  showToast: boolean = false;
   constructor(
     private navCarService: NavbarCarouselService,
     private authSer: AuthService,
@@ -42,10 +43,11 @@ export class NavComponent implements OnInit {
 
     const userInfo = this.authSer.getCurrentUser()
     const userid = userInfo.uid;
-
+    
 
     this.authSer.checkUserRole(userid).subscribe((role) => {
       this.userRole = role;
+      console.log('User role:', this.userRole);
     });
 
     this.cartSer.getUserCart(userid).subscribe((cartData) => {
@@ -69,9 +71,17 @@ export class NavComponent implements OnInit {
 
   }
 
-  addtoCart(item: any) {
+  addtoCart(pro: any) {
+    this.cartSer.addToCart(pro)
+    console.log(pro);
+    this.showToast = true;
 
+    setTimeout(() => {
+      this.showToast = false;
+    }, 2000);
   }
+
+  
   searchPro() {
     //   const text = this.searchitem
     //   this.spinner = true;
@@ -99,13 +109,14 @@ export class NavComponent implements OnInit {
     }
 
     this.firestore.collection('products')
-      .valueChanges()
+      .valueChanges({ idField: 'id' })
       .subscribe((products: any[]) => {
 
         this.allProducts = products.filter(p =>
           p.name?.toLowerCase().includes(value.toLowerCase())
         );
-         this.spinner = false;
+
+        this.spinner = false;
       });
 
   }

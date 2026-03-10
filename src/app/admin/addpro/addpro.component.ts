@@ -43,14 +43,14 @@ export class AddproComponent implements OnInit {
       name: "Add More Catgories",
       icon: "bi bi-box-seam"
     },
-    {
-      name: "Add Logo Partner",
-      icon: "bi bi-image"
-    },
-    {
-      name: "Add Article Product",
-      icon: "bi bi-newspaper"
-    }
+    // {
+    //   name: "Add Logo Partner",
+    //   icon: "bi bi-image"
+    // },
+    // {
+    //   name: "Add Article Product",
+    //   icon: "bi bi-newspaper"
+    // }
   ]
 
   selectedItem: string = ''

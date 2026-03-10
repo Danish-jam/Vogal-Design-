@@ -121,39 +121,40 @@ ul li a:hover {
 .custom-dialog {
     border-radius: 0 !important;
 }
+
 .search-wrapper {
-  width: 70%;
-  margin: 0 auto;
+    width: 70%;
+    margin: 0 auto;
 }
 
 .stylish-search .form-control {
-  border-top-left-radius: 50px;
-  border-bottom-left-radius: 50px;
-  border-right: none;
-  padding: 12px 20px;
-  font-size: 16px;
-  transition: box-shadow 0.3s ease;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+    border-right: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    transition: box-shadow 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .stylish-search .form-control:focus {
-  box-shadow: 0 0 8px rgba(102, 126, 234, 0.4);
-  outline: none;
+    box-shadow: 0 0 8px rgba(102, 126, 234, 0.4);
+    outline: none;
 }
 
 .search-btn {
-  border-top-right-radius: 50px;
-  border-bottom-right-radius: 50px;
-  padding: 10px 25px;
-  font-weight: 500;
-  background: linear-gradient(135deg, #eacb66, #d17830);
-  border: none;
-  color: white;
-  transition: background 0.3s ease;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    padding: 10px 25px;
+    font-weight: 500;
+    background: linear-gradient(135deg, #eacb66, #d17830);
+    border: none;
+    color: white;
+    transition: background 0.3s ease;
 }
 
 .search-btn:hover {
-  background: linear-gradient(135deg, #d8ac5a, #df531c);
+    background: linear-gradient(135deg, #d8ac5a, #df531c);
 }
 
 .custom-card {
@@ -213,6 +214,100 @@ ul li a:hover {
     font-size: 1.2rem;
     pointer-events: none;
 }
+
+/* Toast container */
+.toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Toast card */
+.toast-card {
+    display: flex;
+    align-items: center;
+    background-color: #28a745;
+    /* green */
+    color: white;
+    padding: 12px 18px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    font-weight: 500;
+    min-width: 220px;
+    max-width: 90vw;
+    /* responsive width */
+    opacity: 0;
+    transform: translateY(50px);
+    animation: slideIn 0.5s forwards;
+}
+
+/* Icon */
+.toast-icon {
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+/* Text */
+.toast-text {
+    flex: 1;
+    font-size: 14px;
+}
+
+/* Slide in animation */
+@keyframes slideIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Slide out animation */
+@keyframes slideOut {
+    to {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .toast-container {
+        bottom: 15px;
+        right: 15px;
+    }
+
+    .toast-card {
+        padding: 10px 14px;
+        min-width: 180px;
+        font-size: 13px;
+    }
+
+    .toast-icon {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .toast-container {
+        bottom: 10px;
+        right: 10px;
+    }
+
+    .toast-card {
+        padding: 8px 12px;
+        min-width: 150px;
+        font-size: 12px;
+    }
+
+    .toast-icon {
+        font-size: 16px;
+    }
+}
+
 
 @media only screen and (max-width:990px) {
 

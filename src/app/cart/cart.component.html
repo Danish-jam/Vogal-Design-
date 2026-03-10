@@ -52,7 +52,7 @@
         <span>€{{ subtotal + 5 | number:'1.2-2' }}</span>
       </div>
 
-      <button class="btn btn-primary w-100 py-2" (click)="checkout()">
+      <button class="btn btn-primary w-100 py-2" disabled (click)="checkout()">
         <i class="fa-solid fa-credit-card me-2"></i> Checkout
       </button>
 
@@ -67,5 +67,15 @@
 <div class="d-flex justify-content-center mt-5 pt-5" *ngIf="!spinner">
   <div class="spinner-border text-primary" role="status">
     <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
+<!-- Toast Notification -->
+<div class="toast-container" *ngIf="showToast">
+  <div class="toast-card">
+    <i class="bi bi-x-lg toast-icon"></i>
+    <div class="toast-text">
+      Product removed from cart!
+    </div>
   </div>
 </div>

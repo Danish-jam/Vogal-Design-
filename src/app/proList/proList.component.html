@@ -17,7 +17,7 @@
                     <p class="card-text text-muted small mb-2">
                         Some quick example text to build on the card title and make up the bulk of the card’s content.
                     </p>
-                    <a  [routerLink]="['detaile',pro.id]" class="details-link">Details</a>
+                    <a  [routerLink]="['details',pro.id]" class="details-link">Details</a>
                     <p class="text-danger fw-bold mb-3">${{ pro.price }}</p>
                     <button class="btn add-to-cart-btn mt-auto" (click)="addtoCart(pro)">
                         <i class="bi bi-cart-plus-fill me-2"></i> Add to Cart
@@ -26,4 +26,15 @@
             </div>
         </div>
     </div>
+</div>
+
+
+<!-- Toast Notification -->
+<div class="toast-container" *ngIf="showToast">
+  <div class="toast-card">
+    <i class="bi bi-check-circle-fill toast-icon"></i>
+    <div class="toast-text">
+      Product added to cart!
+    </div>
+  </div>
 </div>

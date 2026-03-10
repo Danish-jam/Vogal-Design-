@@ -13,7 +13,10 @@ export class ProductInfoComponent implements OnInit {
   product: any
   selectedSize: string = ''
   quantity: number = 1
-  selectedImage: string = ''  
+  selectedImage: string = ''
+  cartItems: any = {};
+  showQty: boolean = false; 
+  showQtySelector: boolean = false;
   constructor(
     private route: ActivatedRoute,
     private proSer: ProductService,
@@ -26,26 +29,48 @@ export class ProductInfoComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get("id")
     console.log(id);
 
+    const userInfo = JSON.parse(localStorage.getItem('user') || '{}');
+    const userid = userInfo.uid;
+
     if (id) {
       this.proSer.getProductById(id).subscribe((res) => {
         this.product = res
+
       })
+      this.cartSer.getUserCart(userid).subscribe(res => {
+        this.cartItems = res.items.find((item: any) => item.id === id);
+      });
+
     }
 
   }
-  decreaseQty() {
+
+  increaseQty(item: any) {
+    // this.proSer.increaseQty(item)
+    // console.log(item);
+
+    this.cartSer.increaseQty(item)
 
   }
+
+  decreaseQty(item: any) {
+    // this.proSer.decreaseQty(item)
+
+    this.cartSer.decreaseQty(item)
+  }
+
   selectColor(color: string) {
     this.product.color = color;
   }
-  increaseQty() { }
+
+
   selectImage(image: string) {
     this.product.image = image;
   }
   addToCart(item: string) {
     console.log(item);
     this.cartSer.addToCart(item)
+    this.showQtySelector = true;
   }
 
 }

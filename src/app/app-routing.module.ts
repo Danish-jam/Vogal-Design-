@@ -1,65 +1,50 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CartComponent } from './cart/cart.component';
+
+// Components
 import { HomeComponent } from './home/home.component';
+import { CategoriesComponent } from './categories/categories.component';
+import { ProListComponent } from './proList/proList.component';
 import { ProHighlightsComponent } from './proHighlights/proHighlights.component';
 import { ProductInfoComponent } from './productInfo/productInfo.component';
-import { ProListComponent } from './proList/proList.component';
-import { CategoriesComponent } from './categories/categories.component';
-
+import { CartComponent } from './cart/cart.component';
 
 const routes: Routes = [
+  // ===== Home =====
+  { path: '', component: HomeComponent },           // Default route
+  { path: 'home', component: HomeComponent },
+
+  // ===== Categories =====
+  { path: 'categories', component: CategoriesComponent },        // All categories
+  { path: 'categories/:category', component: CategoriesComponent }, // Specific category
+
+  // ===== Products =====
+  { path: 'allpro', component: ProListComponent },   // All products
+
+  // ===== Cart =====
+  { path: 'cart', component: CartComponent },
+
+  // ===== Product Details =====
+  { path: 'home/details/:id', component: ProductInfoComponent },
+  { path: 'categories/:category/details/:id', component: ProductInfoComponent },
+  { path: 'allpro/details/:id', component: ProductInfoComponent },
+  { path: 'search/details/:id', component: ProductInfoComponent },
+
+  // ===== Lazy Loaded Modules =====
   {
-    path: "",
-    component: HomeComponent
+    path: 'admin',
+    loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
   },
   {
-    path: "home",
-    component: HomeComponent
+    path: 'user',
+    loadChildren: () => import('./user/user.module').then(m => m.UserModule)
   },
-  {
-    path: "categories",
-    component: CategoriesComponent
-  },
-  {
-    path: "categories/:category",
-    component: CategoriesComponent
-  },
-  {
-    path: "allpro",
-    component: ProListComponent
-  },
-  {
-    path: "cart",
-    component: CartComponent
-  }, {
-    path: "categories/New Arrivals",
-    component: CategoriesComponent
-  },
-  {
-    path: "home/detaile/:id",
-    component: ProductInfoComponent
-  },
-  // path: "product-deatail/:id",
-  {
-    path: 'categories/detaile/:id',
-    component: ProductInfoComponent
-  },
-  {
-    path: 'allpro/detaile/:id',
-    component: ProductInfoComponent
-  },
-  {
-    path: "admin", loadChildren: () => import("./admin/admin.module").then(mod => mod.AdminModule)
-  },
-  {
-    path: "user", loadChildren: () => import("./user/user.module").then(mod => mod.UserModule)
-  }
+
+
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)
-  ],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

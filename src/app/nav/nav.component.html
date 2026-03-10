@@ -96,7 +96,8 @@
                         <span class="visually-hidden">Loading...</span>
                       </div>
                     </div>
-                    <h3 class="text-center mt-4 mb-3 text-white" *ngIf="allProducts.length == 0 && !spinner">No Found Match !</h3>
+                    <h3 class="text-center mt-4 mb-3 text-white" *ngIf="allProducts.length == 0 && !spinner">No Found
+                      Match !</h3>
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4">
                       <div class="col" *ngFor="let pro of allProducts | searchPro : searchitem">
                         <div class="custom-card card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
@@ -109,7 +110,7 @@
                               Some quick example text to build on the card title and make up the bulk of the card’s
                               content.
                             </p>
-                            <a [routerLink]="['detaile',pro.id]" class="details-link">Details</a>
+                            <a [routerLink]="['/search/details', pro.id]"  data-bs-dismiss="modal" aria-label="Close">Details</a>
                             <p class="text-danger fw-bold mb-3">${{ pro.price }}</p>
                             <button class="btn add-to-cart-btn mt-auto" (click)="addtoCart(pro)">
                               <i class="bi bi-cart-plus-fill me-2"></i> Add to Cart
@@ -142,3 +143,13 @@
     </div>
   </div>
 </nav>
+
+<!-- Toast Notification -->
+<div class="toast-container" *ngIf="showToast">
+  <div class="toast-card">
+    <i class="bi bi-check-circle-fill toast-icon"></i>
+    <div class="toast-text">
+      Product added to cart!
+    </div>
+  </div>
+</div>

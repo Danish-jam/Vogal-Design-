@@ -47,12 +47,32 @@
       </div>
 
       <!-- Quantity & Add to Cart -->
-      <div class="d-flex align-items-center gap-2 mb-3">
-        <button class="btn btn-outline-secondary" (click)="decreaseQty()">-</button>
-        <input type="number" class="form-control text-center" [(ngModel)]="quantity" min="1" style="width:60px">
-        <button class="btn btn-outline-secondary" (click)="increaseQty()">+</button>
+      <!-- Quantity & Add to Cart -->
+      <div class="d-flex align-items-center gap-2 mb-3" *ngIf="showQtySelector">
+        <!-- Label -->
+        <span class="fw-semibold me-2">Quantity:</span>
+
+        <!-- Decrease button -->
+        <button class="btn btn-outline-secondary btn-sm rounded-circle" (click)="decreaseQty(product)">
+          -
+        </button>
+
+
+        <!-- Quantity display -->
+        <input type="text" class="form-control text-center" style="width:60px; min-width:50px;"
+          [value]="cartItems?.qty || 1" readonly />
+
+        <!-- Increase button -->
+        <button class="btn btn-outline-secondary btn-sm rounded-circle" (click)="increaseQty(product)">
+          +
+        </button>
       </div>
-      <button class="btn btn-primary w-100" (click)="addToCart(product)">Add to Cart</button>
+
+
+      <!-- Add to Cart button -->
+      <button class="btn btn-primary w-100" (click)="addToCart(product)">
+        <i class="bi bi-cart-plus"></i> Add to Cart
+      </button>
 
       <!-- Description -->
       <div class="mt-4">

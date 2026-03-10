@@ -34,13 +34,14 @@ export class AuthService {
   //   );
   // }
 
-  login(email: string, password: string) {
-    this.fireauth.signInWithEmailAndPassword(email, password)
-      .then(res => {
-        localStorage.setItem('user', JSON.stringify(res.user));
-        window.location.href = '/home';
-      })
-  }
+login(email: string, password: string): Promise<any> {
+  // Just return the Firebase Promise
+  return this.fireauth.signInWithEmailAndPassword(email, password)
+    .then(res => {
+      localStorage.setItem('user', JSON.stringify(res.user));
+      return res.user; // resolve user data
+    });
+}
 
 
   // getUserEmail(email: string): Observable<AccountModel> {

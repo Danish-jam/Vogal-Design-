@@ -20,7 +20,7 @@ export class CartComponent implements OnInit {
   spinner: boolean = false
   subtotal: number = 0;
   shipping: number = 5; // fixed shipping
-
+  showToast: boolean = false; 
   ngOnInit(): void {
     const userInfo = JSON.parse(localStorage.getItem('user') || '{}');
     const userid = userInfo.uid;
@@ -67,6 +67,10 @@ export class CartComponent implements OnInit {
 
   removeItem(item: any) {
     this.cartSer.deleteProCart(item)
+    this.showToast = true;
+    setTimeout(() => {
+      this.showToast = false;
+    }, 3000);
   }
 
 
@@ -77,6 +81,6 @@ export class CartComponent implements OnInit {
   }
 
   checkout(){
-
+     
   }
 }

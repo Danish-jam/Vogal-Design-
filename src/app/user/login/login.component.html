@@ -14,10 +14,12 @@
           </div>
           <div class="mt-2">
             <small *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
-              <span *ngIf="email?.errors?.['required']" class="text-danger">Email is
-                required.</span>
-              <span *ngIf="email?.errors?.['email']" class="text-danger">Please enter a valid
-                email address.</span>
+              <span *ngIf="loginForm.get('email')?.errors?.['required']" class="text-danger">
+                Email is required.
+              </span>
+              <span *ngIf="loginForm.get('email')?.errors?.['email']" class="text-danger">
+                Please enter a valid email address.
+              </span>
             </small>
           </div>
           <div class="mt-3 position-relative inputfeilds p-2">
@@ -35,11 +37,35 @@
           </div>
 
           <div class="buttons">
-           <button type="submit" class="btn fw-bold login-btn rounded-0" [disabled]="!loginForm.valid">Login</button>
+            <button type="submit" class="btn fw-bold login-btn rounded-0" [disabled]="!loginForm.valid">
+              Login
+            </button>
             <button class="signup-btn" routerLink="/user/signup" type="button">Sign up</button>
           </div>
         </form>
       </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Toast for wrong login -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div #loginErrorToast class="toast align-items-center text-bg-danger border-0 p-0" role="alert" aria-live="assertive"
+    aria-atomic="true">
+    <div class="d-flex">
+      <!-- Icon -->
+      <div class="toast-icon d-flex align-items-center justify-content-center">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+      </div>
+      <!-- Text -->
+      <div class="toast-body flex-grow-1">
+        <strong class="toast-title">Login Failed</strong>
+        <div class="toast-details">❌ Incorrect username or password. Please try again.</div>
+      </div>
+      <!-- Close button -->
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+        aria-label="Close"></button>
     </div>
   </div>
 </div>
