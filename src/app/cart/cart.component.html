@@ -1,61 +1,62 @@
-<div class="container mt-5" *ngIf="spinner">
+<div class="container mt-5">
+  <div class="cart-wrapper d-flex flex-wrap gap-4">
 
-  <div class="cartbox">
-    <div class="cart-item mb-3" *ngFor="let item of cartItems">
+    <!-- LEFT SIDE - Cart Items -->
+    <div class="cartbox flex-grow-1 mx-sm-0 mx-auto">
+      <div class="cart-item mb-3" *ngFor="let item of cartItems">
+        <!-- Image -->
+        <div class="cart-item__image">
+          <img src="{{item.img}}" alt="{{item.name}}" />
+        </div>
 
-      <!-- Image -->
-      <div class="cart-item__image">
-        <img src="{{item.img}}" alt="{{item.name}}" />
+        <!-- Info -->
+        <div class="cart-item__info">
+          <span class="cart-item__category">{{item.category || 'Product'}}</span>
+          <span class="cart-item__name">{{item.name}}</span>
+        </div>
+
+        <!-- Quantity -->
+        <div class="cart-item__qty">
+          <button class="qty-btn" (click)="decreaseQty(item)">−</button>
+          <span class="qty">{{item.qty}}</span>
+          <button class="qty-btn" (click)="increaseQty(item)">+</button>
+        </div>
+
+        <!-- Price -->
+        <div class="cart-item__price">€{{item.price}}</div>
+
+        <!-- Remove -->
+        <button class="cart-item__remove" aria-label="Remove" (click)="removeItem(item)">×</button>
       </div>
-
-      <!-- Info -->
-      <div class="cart-item__info">
-        <span class="cart-item__category">{{item.category || 'Product'}}</span>
-        <span class="cart-item__name">{{item.name}}</span>
-      </div>
-
-      <!-- Quantity -->
-      <div class="cart-item__qty">
-        <button class="qty-btn" (click)="decreaseQty(item)">−</button>
-        <span class="qty">{{item.qty}}</span>
-        <button class="qty-btn" (click)="increaseQty(item)">+</button>
-      </div>
-
-      <!-- Price -->
-      <div class="cart-item__price">€{{item.price}}</div>
-
-      <!-- Remove -->
-      <button class="cart-item__remove" aria-label="Remove" (click)="removeItem(item)">×</button>
     </div>
-  </div>
 
-  <!-- RIGHT SIDE - SUMMARY -->
-  <div class="col-lg-4 col-12 mt-4 mt-lg-3 mx-auto " *ngIf="cartlength">
+    <!-- RIGHT SIDE - Summary -->
+    <div class="summary-wrapper mx-auto" *ngIf="cartlength">
+      <div class="summary-box border rounded p-4 bg-white shadow-sm ">
+        <h5 class="fw-bold mb-3">Order Summary</h5>
 
-    <div class="summary-box border rounded p-4 bg-white shadow-sm">
-      <h5 class="fw-bold mb-3">Order Summary</h5>
+        <div class="d-flex justify-content-between mb-2">
+          <span>Items ({{ cartlength }})</span>
+          <span>€{{ subtotal | number:'1.2-2' }}</span>
+        </div>
 
-      <div class="d-flex justify-content-between mb-2">
-        <span>Items ({{ cartlength }})</span>
-        <span>€{{ subtotal | number:'1.2-2' }}</span>
+        <div class="d-flex justify-content-between mb-2">
+          <span>Shipping</span>
+          <span>€5.00</span>
+        </div>
+
+        <hr>
+
+        <div class="d-flex justify-content-between fw-bold fs-5 mb-3">
+          <span>Total Cost</span>
+          <span>€{{ subtotal + 5 | number:'1.2-2' }}</span>
+        </div>
+
+        <button class="btn btn-primary w-100 py-2" [routerLink]="['/checkout', userid]">
+          <i class="fa-solid fa-credit-card me-2"></i> Checkout
+        </button>
+
       </div>
-
-      <div class="d-flex justify-content-between mb-2">
-        <span>Shipping</span>
-        <span>€5.00</span>
-      </div>
-
-      <hr>
-
-      <div class="d-flex justify-content-between fw-bold fs-5 mb-3">
-        <span>Total Cost</span>
-        <span>€{{ subtotal + 5 | number:'1.2-2' }}</span>
-      </div>
-
-      <button class="btn btn-primary w-100 py-2" disabled (click)="checkout()">
-        <i class="fa-solid fa-credit-card me-2"></i> Checkout
-      </button>
-
     </div>
 
   </div>
@@ -63,12 +64,7 @@
   <h1 *ngIf="!cartlength" class="text-center text-black mt-5">No Products In Cart</h1>
 </div>
 
-<!-- Spinner -->
-<div class="d-flex justify-content-center mt-5 pt-5" *ngIf="!spinner">
-  <div class="spinner-border text-primary" role="status">
-    <span class="visually-hidden">Loading...</span>
-  </div>
-</div>
+
 
 <!-- Toast Notification -->
 <div class="toast-container" *ngIf="showToast">

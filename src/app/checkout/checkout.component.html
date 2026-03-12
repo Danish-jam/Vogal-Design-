@@ -1,0 +1,122 @@
+<div class="checkout-wrapper">
+
+    <div class="checkout-container" *ngIf="cartItems.length > 0">
+
+        <!-- LEFT SIDE -->
+
+        <div class="checkout-left">
+
+            <h2>Checkout</h2>
+
+            <div class="delivery-buttons">
+
+                <button (click)="selectDelivery('delivery')" [class.active]="deliveryType === 'delivery'">
+                    🚚 Delivery
+                </button>
+
+                <button (click)="selectDelivery('pickup')" [class.active]="deliveryType === 'pickup'">
+                    📦 Pickup
+                </button>
+
+            </div>
+
+            <form [formGroup]="checkoutForm" (ngSubmit)="placeOrder()" class="checkout-form">
+
+                <input type="text" placeholder="Full Name" formControlName="fullName">
+                <div *ngIf="checkoutForm.get('fullName')?.touched && checkoutForm.get('fullName')?.invalid"
+                    class="error text-danger fs-small">
+                    Full Name is required (min 3 characters)
+                </div>
+
+                <input type="email" placeholder="Email Address" formControlName="email">
+                <div *ngIf="checkoutForm.get('email')?.touched && checkoutForm.get('email')?.invalid"
+                    class="error text-danger">
+                    Enter a valid email
+                </div>
+
+                <input type="text" placeholder="Phone Number" formControlName="phone">
+                <div *ngIf="checkoutForm.get('phone')?.touched && checkoutForm.get('phone')?.invalid"
+                    class="error text-danger">
+                    Enter a valid phone number (10-15 digits)
+                </div>
+
+                <div *ngIf="deliveryType === 'delivery'" class="address-fields">
+                    <input type="text" placeholder="City" formControlName="city">
+                    <div *ngIf="checkoutForm.get('city')?.touched && checkoutForm.get('city')?.invalid"
+                        class="error text-danger">
+                        City is required
+                    </div>
+
+                    <input type="text" placeholder="Address" formControlName="address">
+                    <div *ngIf="checkoutForm.get('address')?.touched && checkoutForm.get('address')?.invalid"
+                        class="error text-danger">
+                        Address is required (min 5 characters)
+                    </div>
+                </div>
+
+                <button class="btn btn-primary mx-auto" type="submit" [disabled]="checkoutForm.invalid">
+                    Place Order
+                </button>
+            </form>
+        </div>
+
+
+        <!-- RIGHT SIDE -->
+
+        <div class="checkout-right">
+
+            <h3 class="cart-title">Your Cart</h3>
+
+            <div class="cart-items">
+
+                <div class="cart-item" *ngFor="let item of cartItems">
+
+                    <div class="product-info">
+
+                        <img [src]="item.img" [alt]="item.name">
+
+                        <div class="item-info">
+                            <p class="product-name">{{ item.name }}</p>
+
+                            <div class="price-qty">
+                                <span class="price">${{ item.price | number:'1.2-2' }}</span>
+                                <span class="qty">x{{ item.qty }}</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <button class="delete-btn" (click)="removeItem(item)">
+                        <i class="bi bi-trash"></i>
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="total">
+                <span>Total</span>
+                <strong>${{ subtotal | number:'1.2-2' }}</strong>
+            </div>
+
+        </div>
+    </div>
+    <!-- Check if cart is empty -->
+    <div *ngIf="cartItems.length === 0" class="empty-cart-message">
+        🛒 Your cart is empty! Please add some products before checkout.
+    </div>
+
+</div>
+
+
+<!-- Center Toast -->
+<div class="center-toast" *ngIf="showToast">
+    <div class="toast-box">
+        <i class="bi bi-check-circle-fill toast-icon"></i>
+        <h4>Thank You!</h4>
+        <p>Thank you for shopping with us 🛍️</p>
+
+        <button class="ok-btn" (click)="showToast=false">OK</button>
+    </div>
+</div>

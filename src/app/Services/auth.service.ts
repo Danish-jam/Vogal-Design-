@@ -34,14 +34,14 @@ export class AuthService {
   //   );
   // }
 
-login(email: string, password: string): Promise<any> {
-  // Just return the Firebase Promise
-  return this.fireauth.signInWithEmailAndPassword(email, password)
-    .then(res => {
-      localStorage.setItem('user', JSON.stringify(res.user));
-      return res.user; // resolve user data
-    });
-}
+  login(email: string, password: string): Promise<any> {
+    // Just return the Firebase Promise
+    return this.fireauth.signInWithEmailAndPassword(email, password)
+      .then(res => {
+        localStorage.setItem('user', JSON.stringify(res.user));
+        return res.user; // resolve user data
+      });
+  }
 
 
   // getUserEmail(email: string): Observable<AccountModel> {
@@ -116,10 +116,10 @@ login(email: string, password: string): Promise<any> {
   }
 
   getCurrentUser() {
-    return JSON.parse(localStorage.getItem("user") || '[]')
+    return JSON.parse(localStorage.getItem("user") || '{}')
   }
 
-  checkUserRole(userid  : any): Observable<string> {
+  checkUserRole(userid: any): Observable<string> {
     return this.firestore.collection('users').doc(userid).get().pipe(
       map((doc: any) => {
         const userRole = doc.data()?.role || '';
@@ -129,7 +129,33 @@ login(email: string, password: string): Promise<any> {
     );
   }
 
+  saveOrderToFirebase(orderData: any) {
+    return this.firestore.collection('orders').add({
+      ...orderData,
+      orderDate: new Date(),
+      status: 'pending'
+    });
+  }
 
+  getUserName(uid: string): Observable<string> {
+    return this.firestore.collection('users').doc(uid).get().pipe(
+      map((doc: any) => {
+        if (doc.exists) {
+          const userData = doc.data();
+          console.log('User Name:', userData.fname);
+          return userData.fname;
+        }
+        return 'User';
+      })
+    );
+  }
 
-
+  saveContactToFirestore(contactData: { name: string; email: string; message: string }) {
+    return this.firestore.collection('contactus').add({
+      ...contactData,
+      createdAt: new Date(),  // timestamp
+      status: 'new'           // optional status
+    });
+  }
 }
+

@@ -35,6 +35,8 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { environment } from 'src/enviroment/enviroment';
+import { CheckoutComponent } from './checkout/checkout.component';
+import { ContactUsComponent } from './contact-us/contact-us.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -59,6 +61,8 @@ import { environment } from 'src/enviroment/enviroment';
     CardComponent,
     CountCharPipe,
     SearchProPipe,
+    CheckoutComponent,
+    ContactUsComponent
   ],
   imports: [
     BrowserModule,
@@ -74,7 +78,8 @@ import { environment } from 'src/enviroment/enviroment';
     UserModule,
     AngularFireAuthModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]

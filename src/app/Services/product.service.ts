@@ -145,6 +145,8 @@ export class ProductService {
   }
 }
 
+
+
 // searchPro(name: string): Observable<Category[]> {
 //   return this.http.get<Category[]>(`${this.apiUrl}products?q=${name}`);
 // }

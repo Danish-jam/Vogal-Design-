@@ -18,20 +18,18 @@
         <ul class="navbar-nav flex-grow-1 d-flex justify-content-center align-items-center pe-lg-3 ps-xxl-5">
           <!-- Always show Home first -->
           <li class="nav-item">
-            <a class="nav-link fw-bold" [routerLink]="'home'" routerLinkActive="active">
-              Home
-            </a>
+            <a class="nav-link fw-bold" [routerLink]="'home'" routerLinkActive="active">Home</a>
           </li>
 
-          <!-- Loop through the rest of the links -->
+          <!-- Loop through other links -->
           <ng-container *ngFor="let navText of navLink">
             <li class="nav-item"
               *ngIf="navText.name !== 'Home' && (navText.role === userRole || navText.role === 'all')">
-              <a class="nav-link fw-bold" [routerLink]="navText.link" routerLinkActive="active">
-                {{ navText.name }}
-              </a>
+              <a class="nav-link fw-bold" [routerLink]="navText.link" routerLinkActive="active">{{ navText.name }}</a>
             </li>
           </ng-container>
+
+
         </ul>
         <div class="language-link d-lg-none ">
           <h5 class="pt-2 ps-3">Language</h5>
@@ -62,6 +60,12 @@
     </div>
     <div class="icon-link me-4">
       <ul class="d-flex m-0 p-0">
+        <!-- User Name -->
+        <li class="nav-item ms-3" *ngIf="isLogin">
+          <span class="navbar-username">
+            <i class="bi bi-person-circle me-1"></i> {{ userName }}
+          </span>
+        </li>
         <li class="mx-sm-3 mx-1">
           <!-- Trigger Button -->
           <button type="button" class="search border-0 bg-white" data-bs-toggle="modal"
@@ -110,7 +114,8 @@
                               Some quick example text to build on the card title and make up the bulk of the card’s
                               content.
                             </p>
-                            <a [routerLink]="['/search/details', pro.id]"  data-bs-dismiss="modal" aria-label="Close">Details</a>
+                            <a [routerLink]="['/search/details', pro.id]" data-bs-dismiss="modal"
+                              aria-label="Close">Details</a>
                             <p class="text-danger fw-bold mb-3">${{ pro.price }}</p>
                             <button class="btn add-to-cart-btn mt-auto" (click)="addtoCart(pro)">
                               <i class="bi bi-cart-plus-fill me-2"></i> Add to Cart
@@ -128,6 +133,7 @@
 
 
         </li>
+
         <li class="mx-sm-3 mx-1" *ngIf="!isLogin"><a [routerLink]="['/user/login']"><i
               class="bi bi-person-circle"></i></a></li>
         <li class="mx-sm-3 mx-1" *ngIf="isLogin && userRole === 'admin'"><a [routerLink]="['/admin/navForm']"><i

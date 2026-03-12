@@ -256,7 +256,22 @@ ul li a:hover {
     flex: 1;
     font-size: 14px;
 }
+/* Style for username in navbar */
+.navbar-username {
+  display: flex;
+  align-items: center;
+  background: #667eea;       /* primary hover color */
+  color: #fff;             /* text color */
+  font-weight: 600;
+  font-size: 14px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  transition: background 0.3s ease;
+}
 
+.navbar-username i {
+  font-size: 16px;
+}
 /* Slide in animation */
 @keyframes slideIn {
     to {

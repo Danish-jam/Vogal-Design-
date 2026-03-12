@@ -25,6 +25,7 @@ export class NavComponent implements OnInit {
   cartItems: any[] = [];
   userRole: string = '';
   showToast: boolean = false;
+  userName: any = '';
   constructor(
     private navCarService: NavbarCarouselService,
     private authSer: AuthService,
@@ -43,7 +44,9 @@ export class NavComponent implements OnInit {
 
     const userInfo = this.authSer.getCurrentUser()
     const userid = userInfo.uid;
-    
+    this.userName = this.authSer.getUserName(userid).subscribe((name) => {
+      this.userName = name;
+    });
 
     this.authSer.checkUserRole(userid).subscribe((role) => {
       this.userRole = role;
@@ -81,7 +84,7 @@ export class NavComponent implements OnInit {
     }, 2000);
   }
 
-  
+
   searchPro() {
     //   const text = this.searchitem
     //   this.spinner = true;

@@ -62,6 +62,14 @@ export class CartService {
     });
   }
 
+  // cart.service.ts
+  clearUserCart(userId: string) {
+    return this.afs.collection('cart').doc(userId).update({
+      items: [] // empty array
+    });
+  }
+
+
   getUserCart(userId: string): Observable<{ items: any[]; length: number }> {
     return this.afs
       .collection('cart')

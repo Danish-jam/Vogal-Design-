@@ -15,11 +15,11 @@
               <div class="h6 m-0" *ngIf="data.bntText_3  == 'Nill'">{{data.text}}</div>
               <div class="h1 m-0 fw-bold">{{data.heading_1}}</div>
               <div class="h1 fw-bold">{{data.heading_2}}</div>
-              <div class="h6 m-0" *ngIf="data.bntText_3  !== 'Nill'">{{data.text}}</div>
-              <div class="btn btn-1 mt-4" *ngIf="data.bntText_3  == 'Nill'">{{data.bntText_1}}</div>
+              <div class="h6 m-0" *ngIf="data.bntText_3  !== 'Nill'" routerLink="/categories/New Arrivals">{{data.text}}</div>
+              <div class="btn btn-1 mt-4" *ngIf="data.bntText_3  == 'Nill'" routerLink="/categories/New Arrivals">{{data.bntText_1}}</div>
               <div class="button-group ps-auto" *ngIf="data.bntText_3  !== 'Nill'">
-                <div class="btn btn-1 mt-4 me-2">{{data.bntText_2}}</div>
-                <div class="btn btn-2 mt-4">{{data.bntText_3}}</div>
+                <div class="btn btn-1 mt-4 me-2" routerLink="/categories/New Arrivals">{{data.bntText_2}}</div>
+                <div class="btn btn-2 mt-4" routerLink="/categories/New Arrivals">{{data.bntText_3}}</div>
               </div>
             </div>
           </div>

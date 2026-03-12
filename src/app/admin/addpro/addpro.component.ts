@@ -9,6 +9,7 @@ import { ProductService } from 'src/app/Services/product.service';
 import { CommonModule } from '@angular/common'
 import { Category } from 'src/app/models/category.model';
 import { Partner } from 'src/app/models/partner.model';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'app-addpro',
@@ -29,7 +30,7 @@ export class AddproComponent implements OnInit {
     private proSer: ProductService,
     private activtedRoute: ActivatedRoute,
     private partnerSer: PartnerService,
-
+    private firestore: AngularFirestore
   ) {
 
   }
@@ -43,14 +44,14 @@ export class AddproComponent implements OnInit {
       name: "Add More Catgories",
       icon: "bi bi-box-seam"
     },
-    // {
-    //   name: "Add Logo Partner",
-    //   icon: "bi bi-image"
-    // },
-    // {
-    //   name: "Add Article Product",
-    //   icon: "bi bi-newspaper"
-    // }
+    {
+      name: "Add Logo Partner",
+      icon: "bi bi-image"
+    },
+    {
+      name: "Add Article Product",
+      icon: "bi bi-newspaper"
+    }
   ]
 
   selectedItem: string = ''
@@ -97,6 +98,14 @@ export class AddproComponent implements OnInit {
     }
 
 
+    // this.partnerSer.getPartner().subscribe((res) => {
+    //   this.partnerData = res
+    // })
+
+    // this.partnerSer.getNewsArticle().subscribe((res) => {
+    //   this.NewsArticles = res
+    // })
+
     this.partnerSer.getPartner().subscribe((res) => {
       this.partnerData = res
     })
@@ -104,8 +113,6 @@ export class AddproComponent implements OnInit {
     this.partnerSer.getNewsArticle().subscribe((res) => {
       this.NewsArticles = res
     })
-
-
 
   }
 
@@ -203,23 +210,23 @@ export class AddproComponent implements OnInit {
 
 
   addPartner() {
+    const partnerData = this.partnerForm.value;
 
     if (this.id) {
-      this.partnerSer.updatePartner(this.id, this.partnerForm.value).subscribe((res) => {
-        console.log(res);
-        this.partnerForm.reset();
-      })
+      // Update existing partner
+      this.partnerSer.updatePartner(this.id, partnerData)
+      this.partnerForm.reset();
+      this.id = null; // Clear the ID after update
     } else {
-      this.partnerSer.postPartner(this.partnerForm.value).subscribe((res) => {
-        console.log(res);
-        this.partnerForm.reset();
-      })
-
+      // Add new partner
+      this.partnerSer.postPartner(partnerData)
+      this.partnerForm.reset();
     }
-
   }
 
   partner(item: any) {
+    console.log(item);
+    this.id = item.id;
     this.partnerForm.patchValue({
       imgurl: item.imgurl,
       showHomePge: item.showHomePge,
@@ -229,35 +236,31 @@ export class AddproComponent implements OnInit {
     } else {
       this.partnerForm.addControl('id', this.fb.control(item.id));
     }
-
   }
 
 
   deleteItem(id: number) {
-    this.partnerSer.deletePartner(id).subscribe((res) => {
-      res
-    })
+    const partnerId = id.toString(); // Convert to string if your Firestore document IDs are strings
+    this.partnerSer.deletePartner(partnerId);
   }
 
 
   submitArtilePro() {
-
+    const articleData = this.ArticleForm.value;
     if (this.id) {
-      this.partnerSer.updateNewsArticle(this.id, this.ArticleForm.value).subscribe((res) => {
-        console.log(res);
-        this.ArticleForm.reset();
-      })
+      this.partnerSer.updateNewsArticle(this.id, articleData)
+      this.ArticleForm.reset();
+      this.id = null; // Clear the ID after update
     } else {
-      this.partnerSer.postNewsArticle(this.ArticleForm.value).subscribe((res) => {
-        console.log(res);
-        this.ArticleForm.reset();
-      })
-
+      this.partnerSer.postNewsArticle(articleData)
+      this.ArticleForm.reset();
     }
 
   }
 
   editArticlePro(item: any) {
+    console.log(item);
+    this.id = item.id;
     this.ArticleForm.patchValue({
       imgUrl: item.imgUrl,
       heading: item.heading,
@@ -271,12 +274,22 @@ export class AddproComponent implements OnInit {
   }
 
   deleteArticlePro(id: number) {
-    this.partnerSer.deleteNewsArticle(id).subscribe((res) => {
-      console.log(res);
-
-    })
+    const articleId = id.toString(); // Convert to string if your Firestore document IDs are strings
+    this.partnerSer.deleteNewsArticle(articleId);
   }
 
 }
 
 
+// if (this.id) {
+//     this.partnerSer.updatePartner(this.id, this.partnerForm.value).subscribe((res) => {
+//       console.log(res);
+//       this.partnerForm.reset();
+//     })
+//   } else {
+//     this.partnerSer.postPartner(this.partnerForm.value).subscribe((res) => {
+//       console.log(res);
+//       this.partnerForm.reset();
+//     })
+
+//   }

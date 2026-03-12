@@ -15,7 +15,7 @@ export class ProductInfoComponent implements OnInit {
   quantity: number = 1
   selectedImage: string = ''
   cartItems: any = {};
-  showQty: boolean = false; 
+  showQty: boolean = false;
   showQtySelector: boolean = false;
   constructor(
     private route: ActivatedRoute,
@@ -27,8 +27,6 @@ export class ProductInfoComponent implements OnInit {
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get("id")
-    console.log(id);
-
     const userInfo = JSON.parse(localStorage.getItem('user') || '{}');
     const userid = userInfo.uid;
 
@@ -46,16 +44,10 @@ export class ProductInfoComponent implements OnInit {
   }
 
   increaseQty(item: any) {
-    // this.proSer.increaseQty(item)
-    // console.log(item);
-
     this.cartSer.increaseQty(item)
-
   }
 
   decreaseQty(item: any) {
-    // this.proSer.decreaseQty(item)
-
     this.cartSer.decreaseQty(item)
   }
 
@@ -67,8 +59,9 @@ export class ProductInfoComponent implements OnInit {
   selectImage(image: string) {
     this.product.image = image;
   }
+
+  
   addToCart(item: string) {
-    console.log(item);
     this.cartSer.addToCart(item)
     this.showQtySelector = true;
   }

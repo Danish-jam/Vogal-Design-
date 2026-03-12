@@ -8,7 +8,6 @@ import { LoginComponent } from '../user/login/login.component';
 const routes: Routes = [
   { path: "navForm", component: AddCarouselDataComponent },
   { path: "addpro", component: AddproComponent },
-  { path: "product-update/:proid", component: AddproComponent },
   {
     path: 'user/login',
     component: LoginComponent
